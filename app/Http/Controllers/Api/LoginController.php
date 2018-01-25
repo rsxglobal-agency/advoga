@@ -40,9 +40,6 @@ class LoginController extends Controller
 			$cidade = State::leftjoin('cities as c', 'states.id', '=', 'c.state_id')
 							->where('c.id',$auth->user()->city_id)->first();
 
-			// $estado_id = $auth->user()->state_id;
-			// $teste = DB::select( DB::raw("SELECT sigla FROM states WHERE id='$estado_id'"));
-
 			$id_titulacao = $auth->user()->titulation_id;
 			$titulacao = DB::select( DB::raw("SELECT name FROM titulations WHERE id='$id_titulacao'"));
 			
@@ -90,29 +87,6 @@ class LoginController extends Controller
 									'img' => $auth->user()->image,
 									'remember_token' => $newApiToken
 									]);
-
-
-				// $post['USUARIO'][] = array(
-				// 	'id' => "$id",
-				// 	'nome' => "$nome",
-				// 	'email' => "$email",
-				// 	'estado' => "$estado",
-				// 	'cidade' => "$cidade",
-				// 	'descricao' => "$descricao",
-				// 	'social' => "$social",
-				// 	'titulacao' => "$titulacao",
-				// 	'formacao' => "$formacao",
-				// 	'id_aa' => "$id_areasdeatuacao",
-				// 	'id_sp' => "$id_servicosprestados",
-				// 	'areasdeatuacao' => "$aa",
-				// 	'servicosprestados' => "$sp",
-				// 	'nota' => "$nota",
-				// 	'img' => "$img",
-				// 	'token'=> $token
-				// );
-
-				// echo json_encode($post);
-
 
 	
 		} else {
