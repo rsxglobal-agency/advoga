@@ -13,6 +13,8 @@ use App\City;
 use App\User;
 use App\Atuation;
 use App\Service;
+use App\Formation;
+use App\Titulation;
 
 
 use App\AppResult;
@@ -40,13 +42,9 @@ class LoginController extends Controller
 			$cidade = State::leftjoin('cities as c', 'states.id', '=', 'c.state_id')
 							->where('c.id',$auth->user()->city_id)->first();
 
-			$id_titulacao = $auth->user()->titulation_id;
-			$titulacao = DB::select( DB::raw("SELECT name FROM titulations WHERE id='$id_titulacao'"));
-			
+			$titulacao = Titulation::select('name')->where('id',$auth->user()->titulation_id)->first();
 
-			$id_formacao = $auth->user()->formation_id;
-			$formacao = DB::select( DB::raw("SELECT name FROM formations WHERE id='$id_formacao'"));
-
+			$formacao = Formation::select('name')->where('id',$auth->user()->formation_id)->first();
 			$atuacao = Atuation::select(
 									'name'
 									)
@@ -63,13 +61,6 @@ class LoginController extends Controller
 			$nota_total = $auth->user()->total_stars;
 			$nota = $nota_total / $quantidade_de_notas;
 
-			// $img = '';
-			// $imageName = "foto_avatar_". $auth->user()->id;
-			// if (file_exists($photopath . $imageName . ".jpg")){
-			// 	$img = base64_encode(file_get_contents($photopath . $imageName . ".jpg"));
-			// }
-
-
 			return AppResult::result([
 									'id' => $auth->id(),
 									'nome'=> $auth->user()->name,
@@ -79,15 +70,14 @@ class LoginController extends Controller
 									'cidade' => $cidade->name,
 									'descricao' => $auth->user()->descricao,
 									'social' => $auth->user()->social,
-									'titulacao' => $titulacao,
-									'formacao' => $formacao,
+									'titulacao' => $titulacao['name'],
+									'formacao' => $formacao['name'],
 									'atuacao' => $atuacao,
 									'servicosprestados' => $servicosprestados,
 									'nota' => $nota,
 									'img' => $auth->user()->image,
 									'remember_token' => $newApiToken
 									]);
-
 	
 		} else {
 			return AppResult::error('Email e/ou senha inválido(s)', 10);
