@@ -34,6 +34,10 @@ class LoginController extends Controller
 
 			$rs = User::where('id', $auth->user()->id)
 					->update(['remember_token' => $newApiToken]);
+
+			//token api
+			User::where('id', $auth->user()->id)
+					->update(['api_token' => $newApiToken]);
 			if(!$rs)
 				return  AppResult::error('Erro ao gerar o token de autenticação', 100);
 
@@ -43,7 +47,7 @@ class LoginController extends Controller
 							->where('c.id',$auth->user()->city_id)->first();
 
 			$titulacao = Titulation::select('name')->where('id',$auth->user()->titulation_id)->first();
-
+			
 			$formacao = Formation::select('name')->where('id',$auth->user()->formation_id)->first();
 			$atuacao = Atuation::select(
 									'name'
@@ -76,7 +80,7 @@ class LoginController extends Controller
 									'servicosprestados' => $servicosprestados,
 									'nota' => $nota,
 									'img' => $auth->user()->image,
-									'remember_token' => $newApiToken
+									'remember_token' => $newApiToken,
 									]);
 	
 		} else {

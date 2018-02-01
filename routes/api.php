@@ -13,12 +13,10 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::group(['middleware' => 'auth.api'], function () {
-
-	 // Campanhas
-
-	//Route::get('/login/', 'Api\CampanhasController@GetCampanhas');
+Route::group(['middleware' => 'auth:api'], function(){
+	Route::get('/feed-demandas/', 'Api\DemandaController@GetDemandas');
 });
+
 
 Route::get('/login', function () {
     return redirect('api');
