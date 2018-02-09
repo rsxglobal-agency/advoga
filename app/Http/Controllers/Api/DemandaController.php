@@ -39,14 +39,15 @@ class DemandaController extends Controller
 		$dados = array();
 
 		foreach ($resp as $value) {
-		$dados['id'] 				= $value['id'];
-		$dados['iduser']			= $value['iduser'];
-		$dados['nome']				= $value['nome'];
-		$dados['titulodemanda']		= $value['titulodemanda'];
-		$dados['descricaodemanda']	= $value['descricaodemanda'];
-		$dados['estado']			= $value['estado'];
-		$dados['cidade']			= $value['cidade'];
-		$dados['data']				= date("d-m-Y H:i", strtotime($value['data']));
+
+		$dados['id'] 				= $value->id;
+		$dados['iduser']			= $value->iduser;
+		$dados['nome']				= $value->nome;
+		$dados['titulodemanda']		= $value->titulodemanda;
+		$dados['descricaodemanda']	= $value->descricaodemanda;
+		$dados['estado']			= $value->estado;
+		$dados['cidade']			= $value->cidade;
+		$dados['data']				= date("d-m-Y H:i", strtotime($value->data));
 
 
 			$array[] = $dados;
