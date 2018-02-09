@@ -25,8 +25,8 @@ class DemandaController extends Controller
 											d.description as descricaodemanda,
 											s.name as estado,
 											c.name as cidade,
-											d.created_at,
-											u.total_rating,
+											d.created_at as data,
+											u.rate,
 											u.image											
 											 FROM demands as d
 									join users as u ON u.id = d.user_id
@@ -34,9 +34,27 @@ class DemandaController extends Controller
 									join cities as c on c.id = d.city_id
 									where d.user_id<>$id
 									and d.executor_id is null
-									and u.id not in (select executor_id from demand_executor as de where de.executor_id=$id) ");
+									and u.id not in (select executor_id from demand_executor as de where de.executor_id=$id) order by d.created_at asc limit 40 ");
+		$array = array();
+		$dados = array();
 
-		return json_encode($resp);
+		foreach ($resp as $value) {
+		$dados['id'] 				= $value['id'];
+		$dados['iduser']			= $value['iduser'];
+		$dados['nome']				= $value['nome'];
+		$dados['titulodemanda']		= $value['titulodemanda'];
+		$dados['descricaodemanda']	= $value['descricaodemanda'];
+		$dados['estado']			= $value['estado'];
+		$dados['cidade']			= $value['cidade'];
+		$dados['data']				= date("d-m-Y H:i", strtotime($value['data']));
+
+
+			$array[] = $dados;
+		}
+
+
+
+		return json_encode($array);
 
 	}
 }
