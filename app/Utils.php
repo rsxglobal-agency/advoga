@@ -17,6 +17,10 @@ class Utils
 		return $user['id'];
 
 	}
+	public static function getDemand($ids){
+		print_r($ids);
+		die('fim');
+	}
 
 
 }

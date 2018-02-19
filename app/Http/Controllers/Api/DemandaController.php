@@ -45,7 +45,7 @@ class DemandaController extends Controller
 		$dados['image'] 			= $value->image;
 		$dados['iduser']			= $value->iduser;
 		$dados['nome']				= $value->nome;
-		$dados['rating']				= $value->total_rating / $value->totalStars ;
+		$dados['rating']			= $value->total / $value->totalStars ;
 		$dados['titulodemanda']		= $value->titulodemanda;
 		$dados['descricaodemanda']	= $value->descricaodemanda;
 		$dados['estado']			= $value->estado;
