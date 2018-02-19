@@ -27,7 +27,7 @@ class DemandaController extends Controller
 											c.name as cidade,
 											d.created_at as data,
 											u.rate,
-											u.image											
+											u.image as image											
 											 FROM demands as d
 									join users as u ON u.id = d.user_id
 									join states as s on s.id = d.state_id
@@ -41,6 +41,7 @@ class DemandaController extends Controller
 		foreach ($resp as $value) {
 
 		$dados['id'] 				= $value->id;
+		$dados['image'] 			= $value->image;
 		$dados['iduser']			= $value->iduser;
 		$dados['nome']				= $value->nome;
 		$dados['titulodemanda']		= $value->titulodemanda;
