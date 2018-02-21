@@ -26,8 +26,8 @@ class DemandaController extends Controller
 											s.name as estado,
 											c.name as cidade,
 											d.created_at as data,
-											u.total_rating as total,
-											u.total_stars as totalStars,
+											u.total_rating as quantidade_de_notas,
+											u.total_stars as nota_total,
 											u.image as image											
 											 FROM demands as d
 									join users as u ON u.id = d.user_id
@@ -45,7 +45,7 @@ class DemandaController extends Controller
 		$dados['image'] 			= $value->image;
 		$dados['iduser']			= $value->iduser;
 		$dados['nome']				= $value->nome;
-		$dados['rating']			= $value->total / $value->totalStars ;
+		$dados['rating']			= $value->nota_total / $value->quantidade_de_notas;
 		$dados['titulodemanda']		= $value->titulodemanda;
 		$dados['descricaodemanda']	= $value->descricaodemanda;
 		$dados['estado']			= $value->estado;
