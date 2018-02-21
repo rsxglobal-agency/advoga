@@ -21,6 +21,7 @@ class DemandaController extends Controller
 		$resp = (array) DB::select("SELECT d.id as id,
 											u.id as iduser,
 											u.name as nome,
+											d.id as demand_id,
 											d.name as titulodemanda,
 											d.description as descricaodemanda,
 											s.name as estado,
@@ -39,6 +40,8 @@ class DemandaController extends Controller
 		$array = array();
 		$dados = array();
 
+
+
 		foreach ($resp as $value) {
 
 		$dados['id'] 				= $value->id;
@@ -51,7 +54,8 @@ class DemandaController extends Controller
 		$dados['estado']			= $value->estado;
 		$dados['cidade']			= $value->cidade;
 		$dados['data']				= date("d-m-Y H:i", strtotime($value->data));
-
+		$dados['atuacao']			= Utils::getDemand($value->demand_id);
+		$dados['serv_prestado']		= Utils::getService($value->demand_id);
 
 			$array[] = $dados;
 		}
