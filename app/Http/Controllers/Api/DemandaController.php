@@ -9,13 +9,14 @@ use App;
 use DB;
 use Auth;
 use App\Utils;
+use App\Demand;
 
 
 use App\AppResult;
 
 class DemandaController extends Controller
 {
-	public function GetDemandas(Request $request){
+	public function GetDemands(Request $request){
 		$id = Utils::getIdUser($request->header('Authorization'));
 
 		$resp = (array) DB::select("SELECT d.id as id,
@@ -40,8 +41,6 @@ class DemandaController extends Controller
 		$array = array();
 		$dados = array();
 
-
-
 		foreach ($resp as $value) {
 
 		$dados['id'] 				= $value->id;
@@ -59,10 +58,15 @@ class DemandaController extends Controller
 
 			$array[] = $dados;
 		}
-
-
-
 		return json_encode($array);
+	}
+
+	public function acceptDemand(Request $request){
+		$id = Utils::getIdUser($request->header('Authorization'));
+		json_encode(array('msg'=>'ok'));
+
+		//$resp = (array) DB::select(" UPDATE demands SET executor_id='$id' WHERE id='$id_demanda' AND executor_id IS NULL ");
 
 	}
+
 }
