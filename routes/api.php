@@ -14,8 +14,10 @@ use Illuminate\Http\Request;
 */
 
 Route::group(['middleware' => 'auth:api'], function(){
-	Route::get('/location-states/', 'Api\UtilsController@getStates');
-	Route::get('/location-cities/{state_id}', 'Api\UtilsController@getCities');
+	Route::get('/utils-states/', 'Api\UtilsController@getStates');
+	Route::get('/utils-cities/{state_id}', 'Api\UtilsController@getCities');
+	Route::get('/utils-atuations/', 'Api\UtilsController@getAtuations');
+	Route::get('/utils-services/', 'Api\UtilsController@getServices');
 
 	Route::get('/feed-demandas/', 'Api\DemandaController@GetDemands');
 	Route::post('/accept-demand/', 'Api\DemandaController@acceptDemand');

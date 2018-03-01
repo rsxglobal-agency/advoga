@@ -11,7 +11,8 @@ use Auth;
 use App\State;
 use App\City;
 use App\Utils;
-use App\Demand;
+use App\Atuation;
+use App\Service;
 
 
 use App\AppResult;
@@ -23,11 +24,15 @@ class UtilsController extends Controller
 	}
 
 	public function getCities(Request $request, $state_id){
-		
 		return json_encode(City::where('state_id', $state_id)->get());
+	}
 
+	public function getAtuations(Request $request){
+		return json_encode(Atuation::get());
+	}
 
-		// return json_encode(State::get());
+	public function getServices(Request $request){
+		return json_encode(Service::get());
 	}
 
 
