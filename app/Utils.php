@@ -19,9 +19,9 @@ class Utils
 	}
 	public static function getDemand($id){
 		$resp = (array) DB::select("SELECT a.name FROM atuation_demand as ad 
-							join atuations as a on a.id=ad.atuation_id
-							WHERE ad.demand_id='$id'
-							");
+									join atuations as a on a.id=ad.atuation_id
+									WHERE ad.demand_id='$id'
+									");
 
 		return $resp;
 	}

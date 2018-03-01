@@ -43,18 +43,18 @@ class DemandaController extends Controller
 
 		foreach ($resp as $value) {
 
-		$dados['id'] 				= $value->id;
-		$dados['image'] 			= $value->image;
-		$dados['iduser']			= $value->iduser;
-		$dados['nome']				= $value->nome;
-		$dados['rating']			= $value->nota_total / $value->quantidade_de_notas;
-		$dados['titulodemanda']		= $value->titulodemanda;
-		$dados['descricaodemanda']	= $value->descricaodemanda;
-		$dados['estado']			= $value->estado;
-		$dados['cidade']			= $value->cidade;
-		$dados['data']				= date("d-m-Y H:i", strtotime($value->data));
-		$dados['atuacao']			= Utils::getDemand($value->demand_id);
-		$dados['serv_prestado']		= Utils::getService($value->demand_id);
+			$dados['id'] 				= $value->id;
+			$dados['image'] 			= $value->image;
+			$dados['iduser']			= $value->iduser;
+			$dados['nome']				= $value->nome;
+			$dados['rating']			= $value->nota_total / $value->quantidade_de_notas;
+			$dados['titulodemanda']		= $value->titulodemanda;
+			$dados['descricaodemanda']	= $value->descricaodemanda;
+			$dados['estado']			= $value->estado;
+			$dados['cidade']			= $value->cidade;
+			$dados['data']				= date("d-m-Y H:i", strtotime($value->data));
+			$dados['atuacao']			= Utils::getDemand($value->demand_id);
+			$dados['serv_prestado']		= Utils::getService($value->demand_id);
 
 			$array[] = $dados;
 		}
