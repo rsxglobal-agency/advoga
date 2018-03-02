@@ -23,8 +23,8 @@ class UtilsController extends Controller
 		return json_encode(State::get());
 	}
 
-	public function getCities(Request $request, $state_id){
-		return json_encode(City::where('state_id', $state_id)->get());
+	public function getCities(Request $request){
+		return json_encode(City::where('state_id', $request['state_id'])->get());
 	}
 
 	public function getAtuations(Request $request){
