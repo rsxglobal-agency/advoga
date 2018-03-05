@@ -110,8 +110,8 @@ class DemandaController extends Controller
 
 		$laQuery = DB::getQueryLog();
 
-		// print_r($laQuery);
-		// die;
+		print_r($laQuery);
+		die;
 
 		$array = array();
 		$dados = array();
