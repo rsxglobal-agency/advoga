@@ -107,10 +107,7 @@ class DemandaController extends Controller
 		// 	order by d.created_at asc limit 40
 		// ");
 
-
-		$laQuery = DB::getQueryLog();
-
-		print_r($laQuery);
+		print_r(DB::getQueryLog()[0]['query']);
 		die;
 
 		$array = array();
