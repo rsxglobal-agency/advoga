@@ -63,9 +63,9 @@ class DemandaController extends Controller
 
 	public function acceptDemand(Request $request){
 		$id = Utils::getIdUser($request->header('Authorization'));
-		json_encode(array('msg'=>'ok'));
+		return json_encode(array('msg'=>'ok'));
 
-		//$resp = (array) DB::select(" UPDATE demands SET executor_id='$id' WHERE id='$id_demanda' AND executor_id IS NULL ");
+		$resp = (array) DB::select(" UPDATE demands SET executor_id='$id' WHERE id='$id_demanda' AND executor_id IS NULL ");
 
 	}
 
