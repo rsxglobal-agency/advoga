@@ -1,4 +1,6 @@
+.env
 /vendor
 /storage
 /node_modules
-.env
+/package-lock.json
+/composer-lock

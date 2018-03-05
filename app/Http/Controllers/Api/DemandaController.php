@@ -16,19 +16,29 @@ use App\City;
 
 class DemandaController extends Controller
 {
+
+	private function getCoords($city){
+		$url_googleapis = 'https://maps.googleapis.com/maps/api/geocode/json?address='.implode('+',explode(' ',$city));
+		$geocodeObject = json_decode(file_get_contents($url_googleapis), true);
+		if(isset($geocodeObject['results'][0])){
+			return $geocodeObject['results'][0]['geometry']['location'];
+		}else{
+			return $this->getCoords($city);
+		}
+	}
+
 	public function GetDemands(Request $request){
 		$id = Utils::getIdUser($request->header('Authorization'));
+		$user_city = User::select('city_id')->where('id',$id)->get()->first()->toArray();
+		$name_city = City::select('name')->where('id',$user_city['city_id'])->get()->first()->toArray();
+
 		if($request['lat'] && $request['long']){
 			$lat = $request['lat'];
 			$lng = $request['long'];
 		}else{
-			$user_city = User::select('city_id')->where('id',$id)->get()->first()->toArray();
-			$name_city = City::select('name')->where('id',$user_city['city_id'])->get()->first()->toArray();
-			$city = implode('+',explode(' ',$name_city['name']));
-			$url_googleapis = 'https://maps.googleapis.com/maps/api/geocode/json?address='.$city;
-			$geocodeObject = json_decode(file_get_contents($url_googleapis), true);
-			$lat = $geocodeObject['results'][0]['geometry']['location']['lat'];
-			$lng = $geocodeObject['results'][0]['geometry']['location']['lng'];
+			$coords = $this->getCoords($name_city['name']);
+			$lat = $coords['lat'];
+			$lng = $coords['lng'];
 		}
 
 		$responseStyle = 'short';
@@ -44,8 +54,8 @@ class DemandaController extends Controller
 		foreach ($nearbyCities->geonames as $key => $citie) {
 			$whereCities[] = "'$citie->name'";
 		}
-
-		$cities = implode(', ',$whereCities);
+		$n = $name_city['name'];
+		$c = $whereCities ? implode(', ',$whereCities) : "'$n'";
 
 		$resp = (array) DB::select("SELECT
 			d.id as id,
@@ -65,11 +75,12 @@ class DemandaController extends Controller
 			join states as s on s.id = d.state_id
 			join cities as c on c.id = d.city_id
 			where d.user_id<>$id
-				and c.name in ($cities)
+				and c.name in ($c)
 				and d.executor_id is null
 				and u.id not in (select executor_id from demand_executor as de where de.executor_id=$id)
 			order by d.created_at asc limit 40
 		");
+
 		$array = array();
 		$dados = array();
 
@@ -96,9 +107,9 @@ class DemandaController extends Controller
 
 	public function acceptDemand(Request $request){
 		$id = Utils::getIdUser($request->header('Authorization'));
-		json_encode(array('msg'=>'ok'));
+		return json_encode(array('msg'=>'ok'));
 
-		//$resp = (array) DB::select(" UPDATE demands SET executor_id='$id' WHERE id='$id_demanda' AND executor_id IS NULL ");
+		$resp = (array) DB::select(" UPDATE demands SET executor_id='$id' WHERE id='$id_demanda' AND executor_id IS NULL ");
 
 	}
 

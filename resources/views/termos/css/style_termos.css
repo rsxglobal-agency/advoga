@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css?family=Josefin+Sans:400,700&subset=vietnamese');
+	.container{
+		background-color: #ffffff;
+		max-width: 100%;
+		margin: auto;
+	}
+
+
+
+	.flex-textos{
+			display: flex;
+			flex-direction: column;
+			flex-wrap: nowrap;
+			height: auto;
+			margin-top: -2rem;
+			justify-content: center;
+			align-items: center;
+	}
+
+	.titulo{
+			text-align: top;	
+			font-family: 'Josefin Sans', sans-serif;
+			color: #e81c48;
+			font-size: 1.4rem;
+			width: auto;
+			align-items: center;
+			text-align: center;
+			align-self: center;
+	}
+
+	.descricao{
+			text-align: left;
+			font-family: 'Quicksand', sans-serif;
+			color: #898888;
+			font-size: 0.8rem;	 
+			max-width: 100%;
+			align-items: center;
+			text-align: center || top;
+			align-self: center;
+	}
+
+	.bold{
+		font-weight: bold;
+	}
+
+	h1{
+	font-family: 'Quicksand', sans-serif;
+    text-align: top;
+    text-align: center;		
+	color: #e81c48;
+	}
+	
+	label{
+	width: 100%;
+	margin: 10px 0;
+    display: inline-block;
+    border: 0;
+    outline: 0;
+    border-radius: 1px;
+    font-family: 'Quicksand', sans-serif;
+    text-align: top;		
+	color: #e81c48;
+	font-size: 1.4rem;
+	align-items: center;
+	text-align: center;
+	align-self: center;
+	}
+
+	fieldset{
+		border-color: #e81c48;
+		border-style: solid;
+		border-width: 1px;
+		border-radius: 20px;
+		margin-bottom: 20px
+	}
+
+	span{
+	width: 100%;	
+    border: 0;
+    outline: 0;
+    font-size: 1.2rem;
+    background: transparent;
+    box-sizing: border-box;
+    font-family: 'Quicksand', sans-serif;
+	}
