@@ -57,6 +57,9 @@ class DemandaController extends Controller
 
 		$c = implode(', ',$whereCities);
 
+		print_r($c);
+		die;
+
 		DB::enableQueryLog();
 
 		$resp = (array) DB::select("SELECT
