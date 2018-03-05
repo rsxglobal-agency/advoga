@@ -16,19 +16,29 @@ use App\City;
 
 class DemandaController extends Controller
 {
+
+	private function getCoords($id){
+		$user_city = User::select('city_id')->where('id',$id)->get()->first()->toArray();
+		$name_city = City::select('name')->where('id',$user_city['city_id'])->get()->first()->toArray();
+		$city = implode('+',explode(' ',$name_city['name']));
+		$url_googleapis = 'https://maps.googleapis.com/maps/api/geocode/json?address='.$city;
+		$geocodeObject = json_decode(file_get_contents($url_googleapis), true);
+		if(isset($geocodeObject['results'][0])){
+			return $geocodeObject['results'][0]['geometry']['location'];
+		}else{
+			return $this->getCoords($id);
+		}
+	}
+
 	public function GetDemands(Request $request){
 		$id = Utils::getIdUser($request->header('Authorization'));
 		if($request['lat'] && $request['long']){
 			$lat = $request['lat'];
 			$lng = $request['long'];
 		}else{
-			$user_city = User::select('city_id')->where('id',$id)->get()->first()->toArray();
-			$name_city = City::select('name')->where('id',$user_city['city_id'])->get()->first()->toArray();
-			$city = implode('+',explode(' ',$name_city['name']));
-			$url_googleapis = 'https://maps.googleapis.com/maps/api/geocode/json?address='.$city;
-			$geocodeObject = json_decode(file_get_contents($url_googleapis), true);
-			$lat = $geocodeObject['results'][0]['geometry']['location']['lat'];
-			$lng = $geocodeObject['results'][0]['geometry']['location']['lng'];
+			$coords = $this->getCoords($id);
+			$lat = $coords['lat'];
+			$lng = $coords['lng'];
 		}
 
 		$responseStyle = 'short';
