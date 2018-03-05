@@ -55,7 +55,7 @@ class DemandaController extends Controller
 			$whereCities[] = "'$citie->name'";
 		}
 
-		$cities = implode(', ',$whereCities);
+		$c = implode(', ',$whereCities);
 
 		DB::enableQueryLog();
 
@@ -77,7 +77,7 @@ class DemandaController extends Controller
 			join states as s on s.id = d.state_id
 			join cities as c on c.id = d.city_id
 			where d.user_id<>$id
-				and c.name in ($cities)
+				and c.name in ($c)
 				and d.executor_id is null
 				and u.id not in (select executor_id from demand_executor as de where de.executor_id=$id)
 			order by d.created_at asc limit 40
