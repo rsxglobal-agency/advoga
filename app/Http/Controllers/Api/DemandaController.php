@@ -59,30 +59,6 @@ class DemandaController extends Controller
 
 		DB::enableQueryLog();
 
-		// $resp = (array) DB::select("SELECT
-		// 	d.id as id,
-		// 	u.id as iduser,
-		// 	u.name as nome,
-		// 	d.id as demand_id,
-		// 	d.name as titulodemanda,
-		// 	d.description as descricaodemanda,
-		// 	s.name as estado,
-		// 	c.name as cidade,
-		// 	d.created_at as data,
-		// 	u.total_rating as quantidade_de_notas,
-		// 	u.total_stars as nota_total,
-		// 	u.image as image
-		// 	FROM demands as d
-		// 	join users as u ON u.id = d.user_id
-		// 	join states as s on s.id = d.state_id
-		// 	join cities as c on c.id = d.city_id
-		// 	where d.user_id<>$id
-		// 		and c.name in ($cities)
-		// 		and d.executor_id is null
-		// 		and u.id not in (select executor_id from demand_executor as de where de.executor_id=$id)
-		// 	order by d.created_at asc limit 40
-		// ");
-
 		$resp = (array) DB::select("SELECT
 			d.id as id,
 			u.id as iduser,
@@ -100,12 +76,36 @@ class DemandaController extends Controller
 			join users as u ON u.id = d.user_id
 			join states as s on s.id = d.state_id
 			join cities as c on c.id = d.city_id
-			where d.user_id<>338
-				and c.name in ('Porto Alegre', 'Canoas', 'Guaíba', 'Cachoeirinha', 'Viamão', 'Esteio', 'Sapucaia', 'Gravataí')
+			where d.user_id<>$id
+				and c.name in ($cities)
 				and d.executor_id is null
-				and u.id not in (select executor_id from demand_executor as de where de.executor_id=338)
+				and u.id not in (select executor_id from demand_executor as de where de.executor_id=$id)
 			order by d.created_at asc limit 40
 		");
+
+		// $resp = (array) DB::select("SELECT
+		// 	d.id as id,
+		// 	u.id as iduser,
+		// 	u.name as nome,
+		// 	d.id as demand_id,
+		// 	d.name as titulodemanda,
+		// 	d.description as descricaodemanda,
+		// 	s.name as estado,
+		// 	c.name as cidade,
+		// 	d.created_at as data,
+		// 	u.total_rating as quantidade_de_notas,
+		// 	u.total_stars as nota_total,
+		// 	u.image as image
+		// 	FROM demands as d
+		// 	join users as u ON u.id = d.user_id
+		// 	join states as s on s.id = d.state_id
+		// 	join cities as c on c.id = d.city_id
+		// 	where d.user_id<>338
+		// 		and c.name in ('Porto Alegre', 'Canoas', 'Guaíba', 'Cachoeirinha', 'Viamão', 'Esteio', 'Sapucaia', 'Gravataí')
+		// 		and d.executor_id is null
+		// 		and u.id not in (select executor_id from demand_executor as de where de.executor_id=338)
+		// 	order by d.created_at asc limit 40
+		// ");
 
 
 		$laQuery = DB::getQueryLog();
