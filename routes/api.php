@@ -23,6 +23,8 @@ Route::get('/utils-cities/{state_id}', 'Api\UtilsController@getCities');
 Route::get('/utils-atuations/', 'Api\UtilsController@getAtuations');
 Route::get('/utils-services/', 'Api\UtilsController@getServices');
 
+Route::get('/terms/', 'Api\UtilsController@getTerms');
+
 Route::get('/login', function () {
     return redirect('api');
 });
