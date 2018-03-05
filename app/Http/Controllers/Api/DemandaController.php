@@ -17,26 +17,26 @@ use App\City;
 class DemandaController extends Controller
 {
 
-	private function getCoords($id){
-		$user_city = User::select('city_id')->where('id',$id)->get()->first()->toArray();
-		$name_city = City::select('name')->where('id',$user_city['city_id'])->get()->first()->toArray();
-		$city = implode('+',explode(' ',$name_city['name']));
-		$url_googleapis = 'https://maps.googleapis.com/maps/api/geocode/json?address='.$city;
+	private function getCoords($city){
+		$url_googleapis = 'https://maps.googleapis.com/maps/api/geocode/json?address='.implode('+',explode(' ',$city));
 		$geocodeObject = json_decode(file_get_contents($url_googleapis), true);
 		if(isset($geocodeObject['results'][0])){
 			return $geocodeObject['results'][0]['geometry']['location'];
 		}else{
-			return $this->getCoords($id);
+			return $this->getCoords($city);
 		}
 	}
 
 	public function GetDemands(Request $request){
 		$id = Utils::getIdUser($request->header('Authorization'));
+		$user_city = User::select('city_id')->where('id',$id)->get()->first()->toArray();
+		$name_city = City::select('name')->where('id',$user_city['city_id'])->get()->first()->toArray();
+
 		if($request['lat'] && $request['long']){
 			$lat = $request['lat'];
 			$lng = $request['long'];
 		}else{
-			$coords = $this->getCoords($id);
+			$coords = $this->getCoords($name_city['name']);
 			$lat = $coords['lat'];
 			$lng = $coords['lng'];
 		}
@@ -54,11 +54,8 @@ class DemandaController extends Controller
 		foreach ($nearbyCities->geonames as $key => $citie) {
 			$whereCities[] = "'$citie->name'";
 		}
-
-		$c = implode(', ',$whereCities);
-
-		print_r($c);
-		die;
+		$n = $name_city['name'];
+		$c = $whereCities ? implode(', ',$whereCities) : "'$n'";
 
 		DB::enableQueryLog();
 
