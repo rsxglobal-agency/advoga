@@ -17,12 +17,15 @@ Route::group(['middleware' => 'auth:api'], function(){
 	Route::get('/feed-demandas/', 'Api\DemandaController@GetDemands');
 	Route::post('/accept-demand/', 'Api\DemandaController@acceptDemand');
 	Route::post('/send-demand/', 'Api\DemandaController@sendDemand');
+	//minhas demandas
 	Route::get('/my-demands/', 'Api\DemandaController@myDemands');
 	Route::get('/demands-on-execution/', 'Api\DemandaController@demandsOnExecution');
+	//Candidaturas
+	Route::get('/my-demands/', 'Api\DemandaController@myDemands');
 });
 
 Route::get('/utils-states/', 'Api\UtilsController@getStates');
-Route::get('/utils-cities/{state_id}', 'Api\UtilsController@getCities');
+Route::get('/utils-cities/', 'Api\UtilsController@getCities');
 Route::get('/utils-atuations/', 'Api\UtilsController@getAtuations');
 Route::get('/utils-services/', 'Api\UtilsController@getServices');
 
