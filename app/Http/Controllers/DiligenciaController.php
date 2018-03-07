@@ -41,7 +41,7 @@ class DiligenciaController extends Controller
     
 
    public function aceitar($id){
-
+    
    	Auth::user()->candidatos()->attach($id);
    	return($id);
 

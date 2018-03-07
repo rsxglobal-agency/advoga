@@ -12,8 +12,6 @@ use Auth;
 
 class DemandController extends Controller
 {
-	
-    
     
     public function lancar(){
         

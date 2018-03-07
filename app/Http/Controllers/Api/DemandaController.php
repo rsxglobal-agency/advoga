@@ -107,10 +107,92 @@ class DemandaController extends Controller
 
 	public function acceptDemand(Request $request){
 		$id = Utils::getIdUser($request->header('Authorization'));
-		return json_encode(array('msg'=>'ok'));
-
-		$resp = (array) DB::select(" UPDATE demands SET executor_id='$id' WHERE id='$id_demanda' AND executor_id IS NULL ");
+		$resp = Auth::user()->candidatos()->attach($request['id']);
+		return json_encode(array('msg'=>'candidatura aceita, aguarde para aprovação!'));
+		//$resp = (array) DB::select(" UPDATE demands SET executor_id='$id' WHERE id='$id_demanda' AND executor_id IS NULL ");
 
 	}
+
+	public static function sendDemand(Request $request){
+		$id = Utils::getIdUser($request->header('Authorization'));
+		print_r($id);
+		die();
+
+		    $demand = new Demand;
+
+			$demand->name= $request->name;
+			$demand->description= $request->description;
+			$demand->user_id = $id;
+			$demand->ended=false;
+			//$demand->stars=0; 
+			$demand->state_id= $request->state_id;
+			$demand->city_id= $request->city_id;
+			print_r($demand);
+			die();
+			$demand->save();
+            
+            if($request->has('atuation_id')){
+               $demand->atuations()->attach($request->get('atuation_id'));
+            }
+            
+            if($request->has('service_id')){
+               $demand->services()->attach($request->get('service_id'));
+            }
+
+			return redirect('/dashboard');
+
+	}
+
+	public static function myDemands(Request $request)
+	{
+		$id = Utils::getIdUser($request->header('Authorization'));
+
+       $demands = Demand::where('user_id',$id)->orderby('created_at', 'desc')->get();
+
+       $data['demands'] = array();
+         
+        foreach ($demands as $demand){
+            
+            $services = Demand::find($demand->id)->services()->orderBy('name')->pluck('name')->toArray();
+            $services = implode (", ", $services);
+            $demand->services = $services;
+
+            $atuations = Demand::find($demand->id)->atuations()->orderBy('name')->pluck('name')->toArray();
+            $atuations = implode(", ", $atuations);
+            $demand->atuations = $atuations;
+
+            $data['demands'][]  = $demand;
+ 
+        }
+        return json_encode($data);
+	}
+
+	public static function demandsOnExecution(Request $request){
+		$id 		= Utils::getIdUser($request->header('Authorization'));
+		$demands 	= (array) DB::select(" select * from demands where user_id='$id' 
+											and executor_id is not null
+											 ");
+
+		$data['demands'] = array();
+
+		foreach ($demands as $demand){
+		    
+		    $services = Demand::find($demand->id)->services()->orderBy('name')->pluck('name')->toArray();
+		    $services = implode (", ", $services);
+		    $demand->services = $services;
+
+		    $atuations = Demand::find($demand->id)->atuations()->orderBy('name')->pluck('name')->toArray();
+		    $atuations = implode(", ", $atuations);
+		    $demand->atuations = $atuations;
+		     
+		    $data['demands'][]  = $demand;	
+		}
+
+		return json_encode($data);
+
+
+	}
+
+
 
 }
