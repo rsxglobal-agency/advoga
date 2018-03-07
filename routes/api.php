@@ -21,7 +21,7 @@ Route::group(['middleware' => 'auth:api'], function(){
 	Route::get('/my-demands/', 'Api\DemandaController@myDemands');
 	Route::get('/demands-on-execution/', 'Api\DemandaController@demandsOnExecution');
 	//Candidaturas
-	Route::get('/my-demands/', 'Api\DemandaController@myDemands');
+	Route::get('/my-application/', 'Api\ApplicationController@myApplication');
 });
 
 Route::get('/utils-states/', 'Api\UtilsController@getStates');
