@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css?family=Josefin+Sans:400,700&subset=vietnamese');
+	.container{
+		
+		max-width: 100%;
+		margin: auto;
+	}
+
+
+
+	.flex-textos{
+			display: flex;
+			flex-direction: column;
+			flex-wrap: nowrap;
+			height: auto;
+			margin-top: -2rem;
+			justify-content: center;
+			align-items: center;
+	}
+
+	.titulo{
+			text-align: top;	
+			font-family: 'Ebrima', sans-serif;
+			color: #898888;
+			font-size: 1.4rem;
+			width: auto;
+			align-items: center;
+			text-align: center;
+			align-self: center;
+	}
+
+	.descricao{
+			text-align: left;
+			font-family: 'Ebrima', sans-serif;
+			color: #898888;
+			font-size: 0.8rem;	 
+			max-width: 100%;
+			align-items: center;
+			text-align: center || top;
+			align-self: center;
+	}
+
+	.bold{
+		font-weight: bold;
+	}
+	

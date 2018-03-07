@@ -1,5 +1,10 @@
 .env
 /vendor
-/node_modules
 /storage
+<<<<<<< HEAD
+/node_modules
 /package-lock.json
+/composer-lock
+=======
+/package-lock.json
+>>>>>>> master
