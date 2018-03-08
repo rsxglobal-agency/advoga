@@ -69,8 +69,7 @@ class ApplicationController extends Controller
   
     } 
 
-	     print_r($array);
-	     die();
+    		return json_encode($array);
 
 	}
 
