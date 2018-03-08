@@ -65,5 +65,35 @@ class ApplicationController extends Controller
     	return json_encode($array);
 	}
 
+	public static function myExecutions(Request $request){
+
+		$id = Utils::getIdUser($request->header('Authorization'));
+
+		$demands = (array) DB::select("  
+								select * from demands where executor_id='$id'
+								");
+
+
+
+		$data['demands'] = array();
+		 
+		 foreach ($demands as $demand){
+		        
+		        $services = Demand::find($demand->id)->services()->orderBy('name')->pluck('name')->toArray();
+		        $services = implode (", ", $services);
+		        $demand->services = $services;
+
+		        $atuations = Demand::find($demand->id)->atuations()->orderBy('name')->pluck('name')->toArray();
+		        $atuations = implode(", ", $atuations);
+		        $demand->atuations = $atuations;
+		        
+		        
+		        $data['demands'][]  = $demand;
+
+		} 
+		return json_encode($data);
+
+	}
+
 
 }
