@@ -10,8 +10,11 @@ class DiligenciaController extends Controller
 {
    public function index(){
 
-       	$demands  = Auth::user()->demandExecutors;
-          
+       	$demands  = Auth::user()->demandExecutors()->get()->toArray();
+        echo "<pre>";
+        print_r($demands);
+        die();
+
         $data['demands'] = array();
          
          foreach ($demands as $demand){
