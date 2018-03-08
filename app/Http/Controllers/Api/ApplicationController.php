@@ -18,6 +18,7 @@ class ApplicationController extends Controller
 {
 
 	public static function myApplication(Request $request){
+
 		$id = Utils::getIdUser($request->header('Authorization'));
 
 	   	$demands = (array) DB::select("  
@@ -42,7 +43,7 @@ class ApplicationController extends Controller
 									");
 	    $dados = array();
 	     
-	     foreach ($demands as $demand){
+		foreach ($demands as $demand){
 			$dados['user_id'] = $demand->id_user;
 			$dados['user_name'] = $demand->user_name;
 			$dados['avatar'] = $demand->avatar;
@@ -51,26 +52,17 @@ class ApplicationController extends Controller
 			$dados['city_name'] = $demand->city_name;
 			$dados['demand_id'] = $demand->demanda_id;
 			$dados['demand_name'] = $demand->demand_name;
-			$dados['description_demand'] = $demand->description_demand;
+			$dados['description_demand'] = $demand->description_demand;		    
+		    $services = Demand::find($demand->demanda_id)->services()->orderBy('name')->pluck('name')->toArray();
+		    $services = implode (", ", $services);
+		    $dados['services'] = $services;
 
-	            
-	            $services = Demand::find($demand->demanda_id)->services()->orderBy('name')->pluck('name')->toArray();
-	            $services = implode (", ", $services);
-	            $dados['services'] = $services;
-
-	            $atuations = Demand::find($demand->demanda_id)->atuations()->orderBy('name')->pluck('name')->toArray();
-	            $atuations = implode(", ", $atuations);
-	            $dados['atuations'] = $atuations;
-	          	$array[] = $dados;
-
-
-	            
-	        //}
-  
-    } 
-
-    		return json_encode($array);
-
+		    $atuations = Demand::find($demand->demanda_id)->atuations()->orderBy('name')->pluck('name')->toArray();
+		    $atuations = implode(", ", $atuations);
+		    $dados['atuations'] = $atuations;
+		  	$array[] = $dados;
+		} 
+    	return json_encode($array);
 	}
 
 

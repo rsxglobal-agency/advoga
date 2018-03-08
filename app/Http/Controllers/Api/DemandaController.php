@@ -57,7 +57,8 @@ class DemandaController extends Controller
 		$n = $name_city['name'];
 		$c = $whereCities ? implode(', ',$whereCities) : "'$n'";
 
-		$resp = (array) DB::select("SELECT
+		$resp = (array) DB::select("
+		SELECT
 			d.id as id,
 			u.id as iduser,
 			u.name as nome,
@@ -78,7 +79,7 @@ class DemandaController extends Controller
 				and c.name in ($c)
 				and d.executor_id is null
 				and u.id not in (select executor_id from demand_executor as de where de.executor_id=$id)
-			order by d.created_at asc limit 40
+			order by d.created_at desc limit 40
 		");
 
 		$array = array();
@@ -109,7 +110,6 @@ class DemandaController extends Controller
 		$id = Utils::getIdUser($request->header('Authorization'));
 		$resp = Auth::user()->candidatos()->attach($request['id']);
 		return json_encode(array('msg'=>'candidatura aceita, aguarde para aprovação!'));
-		//$resp = (array) DB::select(" UPDATE demands SET executor_id='$id' WHERE id='$id_demanda' AND executor_id IS NULL ");
 
 	}
 
@@ -124,7 +124,6 @@ class DemandaController extends Controller
 			$demand->description= $request->description;
 			$demand->user_id = $id;
 			$demand->ended=false;
-			//$demand->stars=0; 
 			$demand->state_id= $request->state_id;
 			$demand->city_id= $request->city_id;
 			print_r($demand);
