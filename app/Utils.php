@@ -55,7 +55,22 @@ class Utils
 									WHERE de.demand_id='$id'
 									");
 
-		return $resp;
+
+		$array = array();
+		$dados = array();
+		foreach ($resp as $value) {
+			$dados['iduser'] = $value->iduser;
+			$dados['nome'] = $value->nome;
+			$dados['rating'] = $value->nota_total / $value->quantidade_de_notas;
+			$dados['image'] = $value->image;
+			$dados['formation'] = $value->formation;
+			$dados['estado'] = $value->estado;
+			$dados['cidade'] = $value->cidade;
+
+
+			$array[] = $dados;	
+		}
+		return $array;
 
 	}
 
