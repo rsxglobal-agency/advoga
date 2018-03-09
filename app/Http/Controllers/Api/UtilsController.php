@@ -13,6 +13,7 @@ use App\City;
 use App\Utils;
 use App\Atuation;
 use App\Service;
+use App\Demand;
 
 
 use App\AppResult;
@@ -33,6 +34,36 @@ class UtilsController extends Controller
 
 	public function getServices(Request $request){
 		return json_encode(Service::get());
+	}
+
+
+	public function historic(Request $request){
+		$id = Utils::getIdUser($request->header('Authorization'));
+
+		DB::enableQueryLog();
+        $demands = (array) DB::select(" 
+	        				select * from `demands` 
+	        				where `ended` = 1 
+	        				and (`user_id` = 351 or `executor_id` = 351) 
+	        				order by `created_at` desc
+        				");
+       
+        $data = array();
+        
+        foreach ($demands as $demand){
+            
+            $services = Demand::find($demand->id)->services()->orderBy('name')->pluck('name')->toArray();
+            $services = implode (", ", $services);
+            $demand->services = $services;
+
+            $atuations = Demand::find($demand->id)->atuations()->orderBy('name')->pluck('name')->toArray();
+            $atuations = implode(", ", $atuations);
+            $demand->atuations = $atuations;
+
+            $data[]  = $demand;
+        } 
+        return json_encode($data);
+
 	}
 
 

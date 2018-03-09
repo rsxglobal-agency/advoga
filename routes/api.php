@@ -24,6 +24,8 @@ Route::group(['middleware' => 'auth:api'], function(){
 	//Candidaturas
 	Route::get('/my-application/', 'Api\ApplicationController@myApplication');
 	Route::get('/my-executions/', 'Api\ApplicationController@myExecutions');
+	Route::get('/historic/', 'Api\UtilsController@historic');
+
 });
 
 Route::get('/utils-states/', 'Api\UtilsController@getStates');
