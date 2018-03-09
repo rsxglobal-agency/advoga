@@ -159,7 +159,20 @@ class DemandaController extends Controller
 
 		$id = Utils::getIdUser($request->header('Authorization'));
 
-		$demands = Demand::where('user_id',$id)->orderby('created_at', 'desc')->get();
+		$demands = (array) DB::select("
+						SELECT
+							d.id as id,
+							d.name as name,
+							d.description as description,
+							d.ended as ended,
+							d.executor_id as executor_id,
+							s.name as state_name,
+							c.name as city_name
+						FROM demands as d
+							join states as s on s.id = d.state_id
+							join cities as c on c.id = d.city_id
+						WHERE d.user_id='$id' AND d.executor_id IS NULL
+						ORDER BY d.created_at DESC");
 
 
 		$data = array();
