@@ -148,7 +148,7 @@ class DemandaController extends Controller
 
        $demands = Demand::where('user_id',$id)->orderby('created_at', 'desc')->get();
 
-       $data['demands'] = array();
+       $data = array();
          
         foreach ($demands as $demand){
             
@@ -160,7 +160,7 @@ class DemandaController extends Controller
             $atuations = implode(", ", $atuations);
             $demand->atuations = $atuations;
 
-            $data['demands'][]  = $demand;
+            $data[]  = $demand;
  
         }
         return json_encode($data);
