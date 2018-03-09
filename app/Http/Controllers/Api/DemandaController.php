@@ -167,33 +167,45 @@ class DemandaController extends Controller
 
 		$id = Utils::getIdUser($request->header('Authorization'));
 
-       $demands = Demand::where('user_id',$id)->orderby('created_at', 'desc')->get();
+		$demands = Demand::where('user_id',$id)->orderby('created_at', 'desc')->get();
 
 
-       $data = array();
-         
-        foreach ($demands as $demand){
-            
-            $services = Demand::find($demand->id)->services()->orderBy('name')->pluck('name')->toArray();
-            $services = implode (", ", $services);
-            $demand->services = $services;
+		$data = array();
+		 
+		foreach ($demands as $demand){
+		    
+		    $services = Demand::find($demand->id)->services()->orderBy('name')->pluck('name')->toArray();
+		    $services = implode (", ", $services);
+		    $demand->services = $services;
 
-            $atuations = Demand::find($demand->id)->atuations()->orderBy('name')->pluck('name')->toArray();
-            $atuations = implode(", ", $atuations);
-            $demand->atuations = $atuations;
+		    $atuations = Demand::find($demand->id)->atuations()->orderBy('name')->pluck('name')->toArray();
+		    $atuations = implode(", ", $atuations);
+		    $demand->atuations = $atuations;
 
-            $demand->candidatos =  Utils::getCandidates($demand->id);
+		    $demand->candidatos =  Utils::getCandidates($demand->id);
 
-            $data[]  = $demand;
- 
-        }
-        return json_encode($data);
+		    $data[]  = $demand;
+
+		}
+
+		return json_encode($data);
 	}
 
 	public static function demandsOnExecution(Request $request){
 		$id 		= Utils::getIdUser($request->header('Authorization'));
-		$demands 	= (array) DB::select("select * from demands where user_id='$id' 
-                                          and executor_id is not null");
+		$demands 	= (array) DB::select("
+						SELECT
+							d.id as id,
+							d.name as name,
+							d.description as description,
+							d.ended as ended,
+							d.executor_id as executor_id,
+							s.name as state_name,
+							c.name as city_name
+						FROM demands as d
+							join states as s on s.id = d.state_id
+							join cities as c on c.id = d.city_id
+						WHERE d.user_id='$id' AND d.executor_id is not null");
 
 		$data['demands'] = array();
 
