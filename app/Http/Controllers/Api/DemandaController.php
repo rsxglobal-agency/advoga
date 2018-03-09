@@ -114,31 +114,24 @@ class DemandaController extends Controller
 	}
 
 	public static function sendDemand(Request $request){
-		$id = Utils::getIdUser($request->header('Authorization'));
-		print_r($id);
-		die();
+		$user_id = Utils::getIdUser($request->header('Authorization'));
+	    
+	    $demand = new Demand;
+		
+		$demand->name = $request['name'];
+		$demand->description= $request['description'];
+		$demand->state_id = $request['state_id'];
+		$demand->city_id = $request['city_id'];
+		$demand->atuations = $request['atuations'];
+		$demand->services = $request['services'];
+		$demand->user_id = $user_id;
+		$demand->ended = false;
 
-		    $demand = new Demand;
+		if ($demand->save()) {
+			return json_encode(Array('success' => true));
+		}
 
-			$demand->name= $request->name;
-			$demand->description= $request->description;
-			$demand->user_id = $id;
-			$demand->ended=false;
-			$demand->state_id= $request->state_id;
-			$demand->city_id= $request->city_id;
-			print_r($demand);
-			die();
-			$demand->save();
-            
-            if($request->has('atuation_id')){
-               $demand->atuations()->attach($request->get('atuation_id'));
-            }
-            
-            if($request->has('service_id')){
-               $demand->services()->attach($request->get('service_id'));
-            }
-
-			return redirect('/dashboard');
+		return json_encode(Array('success' => false));
 
 	}
 
