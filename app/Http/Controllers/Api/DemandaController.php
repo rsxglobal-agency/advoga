@@ -187,9 +187,8 @@ class DemandaController extends Controller
 
 	public static function demandsOnExecution(Request $request){
 		$id 		= Utils::getIdUser($request->header('Authorization'));
-		$demands 	= (array) DB::select(" select * from demands where user_id='$id' 
-											and executor_id is not null
-											 ");
+		$demands 	= (array) DB::select("select * from demands where user_id='$id' 
+                                          and executor_id is not null");
 
 		$data['demands'] = array();
 
@@ -202,8 +201,15 @@ class DemandaController extends Controller
 		    $atuations = Demand::find($demand->id)->atuations()->orderBy('name')->pluck('name')->toArray();
 		    $atuations = implode(", ", $atuations);
 		    $demand->atuations = $atuations;
-		     
-		    $data['demands'][]  = $demand;	
+		    $data['demands'][]  = $demand;
+
+		    if (!isset($data['executors'][$demand->executor_id])) {
+		    	$resp = Utils::getExecutorInfo($demand->executor_id);
+		    	$data['executors'][$demand->executor_id]['id'] = $resp->id;
+		    	$data['executors'][$demand->executor_id]['name'] = $resp->name;
+		    	$data['executors'][$demand->executor_id]['image'] = $resp->image;
+		    	$data['executors'][$demand->executor_id]['rating'] = $resp->total_stars / $resp->total_rating;
+		    }
 		}
 
 		return json_encode($data);

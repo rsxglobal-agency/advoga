@@ -35,5 +35,10 @@ class Utils
 		return $resp;
 	}
 
+	public static function getExecutorInfo($id) {
+		$resp = (array) DB::select("SELECT id,name,image,total_stars,total_rating FROM users WHERE id='$id'");
+		return $resp[0];
+	}
+
 
 }
