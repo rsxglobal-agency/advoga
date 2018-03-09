@@ -58,7 +58,7 @@ class DemandaController extends Controller
 		$c = $whereCities ? implode(', ',$whereCities) : "'$n'";
 
 		$resp = (array) DB::select("
-		SELECT
+		select	
 			d.id as id,
 			u.id as iduser,
 			u.name as nome,
@@ -76,9 +76,9 @@ class DemandaController extends Controller
 			join states as s on s.id = d.state_id
 			join cities as c on c.id = d.city_id
 			where d.user_id<>$id
-				and c.name in ($c)
+				-- and c.name in ($c)
 				and d.executor_id is null
-				and u.id not in (select executor_id from demand_executor as de where de.executor_id=$id)
+				and u.id not in (select executor_id from demand_executor)
 			order by d.created_at desc limit 40
 		");
 
@@ -113,30 +113,38 @@ class DemandaController extends Controller
 
 	}
 
-	public static function sendDemand(Request $request) {
-		$user_id = Utils::getIdUser($request->header('Authorization'));
-	    
-	    $demand = new Demand;
-		
-		$demand->name = $request['name'];
-		$demand->description= $request['description'];
-		$demand->state_id = $request['state_id'];
-		$demand->city_id = $request['city_id'];
-		$demand->user_id = $user_id;
-		$demand->ended = 0;
-		$resp = $demand->save();
+	public static function sendDemand(Request $request){
+		try {
+			$user_id = Utils::getIdUser($request->header('Authorization'));
+		    
+		    $demand = new Demand;
+			
+			$demand->name = $request['name'];
+			$demand->description= $request['description'];
+			$demand->state_id = $request['state_id'];
+			$demand->city_id = $request['city_id'];	
+			$demand->user_id = $user_id;
+			$demand->ended = 0;
+			$resp = $demand->save();
+			if ($resp){
+				foreach ($request['atuations'] as $value) {
+					
+					
+				}
 
-		if ($resp) {
-			foreach ($request['atuations'] as $value) {
-				DB::insert('insert into atuation_demand (atuation_id, demand_id) values (?, ?)', [$value, $demand->id]);
+				foreach ($request['services'] as $value) {
+
+
+				}
+
+				return json_encode(Array('success' => true));
 			}
-			foreach ($request['services'] as $value) {
-				DB::insert('insert into demand_service (service_id, demand_id) values (?, ?)', [$value, $demand->id]);
-			}
-			return json_encode(Array('success' => true));
+		} catch (Exception $error) {
+			error_log('exception: ');
+			error_log($error);
+		} finally {
+			return json_encode(Array('success' => false));
 		}
-
-		return json_encode(Array('success' => false));
 	}
 
 	public static function editDemand(Request $request) {
