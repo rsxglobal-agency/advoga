@@ -75,7 +75,7 @@ class ApplicationController extends Controller
 
 
 
-		$data['demands'] = array();
+		$data = array();
 		 
 		 foreach ($demands as $demand){
 		        
@@ -88,7 +88,7 @@ class ApplicationController extends Controller
 		        $demand->atuations = $atuations;
 		        
 		        
-		        $data['demands'][]  = $demand;
+		        $data[]  = $demand;
 
 		} 
 		return json_encode($data);
