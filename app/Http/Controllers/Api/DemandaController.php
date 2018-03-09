@@ -114,10 +114,41 @@ class DemandaController extends Controller
 	}
 
 	public static function sendDemand(Request $request){
+		try {
+			$user_id = Utils::getIdUser($request->header('Authorization'));
+		    
+		    $demand = new Demand;
+			
+			$demand->name = $request['name'];
+			$demand->description= $request['description'];
+			$demand->state_id = $request['state_id'];
+			$demand->city_id = $request['city_id'];
+			$demand->atuations = $request['atuations'];
+			$demand->services = $request['services'];
+			$demand->user_id = $user_id;
+			$demand->ended = 0;
+			echo "string";
+			DB::connection()->enableQueryLog();
+			$demand->save();
+				print_r( DB::getQueryLog());
+				die('aqui');
+
+			echo "string";
+			var_dump($was_saved);
+			die('fim');
+			if ($was_saved)
+				return json_encode(Array('success' => true));
+		} catch (Exception $error) {
+			error_log('exception: ');
+			error_log($error);
+		} finally {
+			return json_encode(Array('success' => false));
+		}
+	}
+
+	public static function editDemand(Request $request) {
 		$user_id = Utils::getIdUser($request->header('Authorization'));
-	    
-	    $demand = new Demand;
-		
+		$demand = New Demand;
 		$demand->name = $request['name'];
 		$demand->description= $request['description'];
 		$demand->state_id = $request['state_id'];
@@ -125,13 +156,8 @@ class DemandaController extends Controller
 		$demand->atuations = $request['atuations'];
 		$demand->services = $request['services'];
 		$demand->user_id = $user_id;
-		$demand->ended = false;
-
-		if ($demand->save()) {
-			return json_encode(Array('success' => true));
-		}
-
-		return json_encode(Array('success' => false));
+		$demand->where('id',$request['id'])->update($demand->toArray());
+		return json_encode($var);
 
 	}
 
