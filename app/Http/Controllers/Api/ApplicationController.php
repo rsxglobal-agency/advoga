@@ -72,9 +72,6 @@ class ApplicationController extends Controller
 		$demands = (array) DB::select("  
 								select * from demands where executor_id='$id'
 								");
-
-
-
 		$data = array();
 		 
 		 foreach ($demands as $demand){
@@ -86,8 +83,6 @@ class ApplicationController extends Controller
 		        $atuations = Demand::find($demand->id)->atuations()->orderBy('name')->pluck('name')->toArray();
 		        $atuations = implode(", ", $atuations);
 		        $demand->atuations = $atuations;
-		        
-		        
 		        $data[]  = $demand;
 
 		} 

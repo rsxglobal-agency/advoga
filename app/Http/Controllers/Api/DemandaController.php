@@ -162,9 +162,11 @@ class DemandaController extends Controller
 
 	public static function myDemands(Request $request)
 	{
+
 		$id = Utils::getIdUser($request->header('Authorization'));
 
        $demands = Demand::where('user_id',$id)->orderby('created_at', 'desc')->get();
+
 
        $data = array();
          
@@ -177,6 +179,8 @@ class DemandaController extends Controller
             $atuations = Demand::find($demand->id)->atuations()->orderBy('name')->pluck('name')->toArray();
             $atuations = implode(", ", $atuations);
             $demand->atuations = $atuations;
+
+            $demand->candidatos =  Utils::getCandidates($demand->id);
 
             $data[]  = $demand;
  
