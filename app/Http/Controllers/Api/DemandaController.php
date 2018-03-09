@@ -127,17 +127,20 @@ class DemandaController extends Controller
 			$demand->services = $request['services'];
 			$demand->user_id = $user_id;
 			$demand->ended = 0;
-			echo "string";
-			DB::connection()->enableQueryLog();
-			$demand->save();
-				print_r( DB::getQueryLog());
-				die('aqui');
+			$resp = $demand->save();
+			if ($resp){
+				foreach ($request['atuations'] as $value) {
+					
+					
+				}
 
-			echo "string";
-			var_dump($was_saved);
-			die('fim');
-			if ($was_saved)
+				foreach ($request['services'] as $value) {
+
+
+				}
+				
 				return json_encode(Array('success' => true));
+			}
 		} catch (Exception $error) {
 			error_log('exception: ');
 			error_log($error);
