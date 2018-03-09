@@ -127,18 +127,12 @@ class DemandaController extends Controller
 		$resp = $demand->save();
 
 		if ($resp) {
-			error_log('atuations...');
 			foreach ($request['atuations'] as $value) {
-				error_log($values);
 				DB::insert('insert into atuation_demand (atuation_id, demand_id) values (?, ?)', [$value, $demand->id]);
 			}
-
-			error_log('services...');
 			foreach ($request['services'] as $value) {
-				error_log($value);
 				DB::insert('insert into demand_service (service_id, demand_id) values (?, ?)', [$value, $demand->id]);
 			}
-			
 			return json_encode(Array('success' => true));
 		}
 
