@@ -135,7 +135,7 @@ class DemandaController extends Controller
 
 			error_log('services...');
 			foreach ($request['services'] as $value) {
-				error_log($value)
+				error_log($value);
 				DB::insert('insert into demand_service (service_id, demand_id) values (?, ?)', [$value, $demand->id]);
 			}
 			
