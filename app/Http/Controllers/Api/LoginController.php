@@ -64,6 +64,13 @@ class LoginController extends Controller
 			$quantidade_de_notas = $auth->user()->total_rating;
 			$nota_total = $auth->user()->total_stars;
 			$nota = $nota_total / $quantidade_de_notas;
+			$image = $auth->user()->image;
+			
+			if ($image != '') {
+				$image = 'http://www.advogaapp.com.br/uploads/avatars/' + $image;
+			} else {
+				$image = 'https://firebasestorage.googleapis.com/v0/b/advogaapp.appspot.com/o/photo_default.png?alt=media&token=59993b39-5631-41e1-bfb7-9d3d8aa4f63c';
+			}
 
 			return AppResult::result([
 									'id' => $auth->id(),
@@ -79,7 +86,7 @@ class LoginController extends Controller
 									'atuacao' => $atuacao,
 									'servicosprestados' => $servicosprestados,
 									'nota' => $nota,
-									'img' => $auth->user()->image,
+									'img' => $image,
 									'remember_token' => $newApiToken,
 									]);
 	
