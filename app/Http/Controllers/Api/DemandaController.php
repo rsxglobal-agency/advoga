@@ -130,11 +130,9 @@ class DemandaController extends Controller
 			foreach ($request['atuations'] as $value) {
 				DB::insert('insert into atuation_demand (atuation_id, demand_id) values(?, ?)', [$value, $demand->id]);
 			}
-
 			foreach ($request['services'] as $value) {
 				DB::insert('insert into demand_service (service_id, demand_id) values(?, ?)', [$value, $demand->id]);
 			}
-
 			return json_encode(Array('success' => true));
 		}
 
