@@ -76,7 +76,7 @@ class DemandaController extends Controller
 			join states as s on s.id = d.state_id
 			join cities as c on c.id = d.city_id
 			where d.user_id<>$id
-				-- and c.name in ($c)
+				and c.name in ($c)
 				and d.executor_id is null
 				and u.id not in (select executor_id from demand_executor)
 			order by d.created_at desc limit 40
@@ -241,8 +241,7 @@ class DemandaController extends Controller
 							join cities as c on c.id = d.city_id
 						WHERE d.user_id='$id' 
 						AND d.executor_id is not null 
-						AND d.conclude1 is null 
-						and d.conclude2 is null
+						AND d.conclude1 is null  
 						");
 
 		$data['demands'] = array();

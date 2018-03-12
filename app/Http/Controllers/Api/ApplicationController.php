@@ -43,6 +43,7 @@ class ApplicationController extends Controller
 									");
 	    $dados = array();
 	     
+
 		foreach ($demands as $demand){
 			$dados['user_id'] = $demand->id_user;
 			$dados['user_name'] = $demand->user_name;
@@ -87,8 +88,23 @@ class ApplicationController extends Controller
 
 		} 
 		return json_encode($data);
-
 	}
 
+	public static function cancelApplication(Request $request){
+		$id = Utils::getIdUser($request->header('Authorization'));
+
+		$resp = DB::table('demand_executor')
+					->where('executor_id', '=', $id)
+					->where('demand_id', '=', $request['demand_id'])
+					->delete();
+		if($resp){
+			return json_encode(array('msg'=> 'Candidatura removida com sucesso!'));	
+		}else{
+			return json_encode(array('msg'=> 'Erro ao remover sua candidatura!'));	
+		}
+
+		
+
+	}
 
 }

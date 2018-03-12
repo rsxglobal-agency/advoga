@@ -28,6 +28,8 @@ Route::group(['middleware' => 'auth:api'], function(){
 	Route::get('/my-application/', 'Api\ApplicationController@myApplication');
 	Route::get('/my-executions/', 'Api\ApplicationController@myExecutions');
 	Route::get('/historic/', 'Api\UtilsController@historic');
+	Route::post('/cancel-application/', 'Api\ApplicationController@cancelApplication');
+
 
 });
 
