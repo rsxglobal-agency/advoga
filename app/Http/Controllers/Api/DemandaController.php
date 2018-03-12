@@ -110,8 +110,37 @@ class DemandaController extends Controller
 		$id = Utils::getIdUser($request->header('Authorization'));
 		$resp = Auth::user()->candidatos()->attach($request['id']);
 		return json_encode(array('msg'=>'candidatura aceita, aguarde para aprovação!'));
-
 	}
+
+	public function cancelDemand(Request $request){
+		$id = Utils::getIdUser($request->header('Authorization'));
+
+		$demand = new Demand();
+		$demand->executor_id = null; 
+		$resp = $demand->where('id', '=', $request['demand_id'])->update($demand->toArray());
+		if ($resp) {
+			return json_encode(array('msg'=>'Cancelado com sucesso!'));
+		}
+		else{
+			return json_encode(array('msg'=>'erro ao cancelar!'));
+		}	
+	}
+
+	public function concludeDemand(Request $request){
+		$id = Utils::getIdUser($request->header('Authorization'));
+
+		$demand = new Demand();
+		$demand->conclude1 = true; 
+		$demand->conclude2 = true; 
+		$resp = $demand->where('id', '=', $request['demand_id'])->update($demand->toArray());
+		if ($resp) {
+			return json_encode(array('msg'=>'Demanda finalizada com sucesso!'));
+		}
+		else{
+			return json_encode(array('msg'=>'erro ao concluir!'));
+		}	
+	}
+
 
 	public static function sendDemand(Request $request){
 		try {
@@ -205,7 +234,11 @@ class DemandaController extends Controller
 						FROM demands as d
 							join states as s on s.id = d.state_id
 							join cities as c on c.id = d.city_id
-						WHERE d.user_id='$id' AND d.executor_id is not null");
+						WHERE d.user_id='$id' 
+						AND d.executor_id is not null 
+						AND d.conclude1 is null 
+						and d.conclude2 is null
+						");
 
 		$data['demands'] = array();
 
