@@ -235,10 +235,13 @@ class DemandaController extends Controller
 		}
 
 		return json_encode($data);
-
-
 	}
 
+	public static function demandName(Request $request) {
+		$demandIds = implode(', ', $request->ids);
+		$demands = DB::select('SELECT name FROM demands WHERE id IN (' . $demandIds . ')');
+		return json_encode($demands);
+	}
 
 
 }
