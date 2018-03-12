@@ -64,7 +64,7 @@ class LoginController extends Controller
 			$quantidade_de_notas = $auth->user()->total_rating;
 			$nota_total = $auth->user()->total_stars;
 			$nota = $nota_total / $quantidade_de_notas;
-
+			
 			return AppResult::result([
 									'id' => $auth->id(),
 									'nome'=> $auth->user()->name,

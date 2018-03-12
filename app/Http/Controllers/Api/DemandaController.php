@@ -143,37 +143,29 @@ class DemandaController extends Controller
 
 
 	public static function sendDemand(Request $request){
-		try {
-			$user_id = Utils::getIdUser($request->header('Authorization'));
-		    
-		    $demand = new Demand;
-			
-			$demand->name = $request['name'];
-			$demand->description= $request['description'];
-			$demand->state_id = $request['state_id'];
-			$demand->city_id = $request['city_id'];	
-			$demand->user_id = $user_id;
-			$demand->ended = 0;
-			$resp = $demand->save();
-			if ($resp){
-				foreach ($request['atuations'] as $value) {
-					
-					
-				}
+		$user_id = Utils::getIdUser($request->header('Authorization'));
 
-				foreach ($request['services'] as $value) {
+		$demand = new Demand;
 
+		$demand->name = $request['name'];
+		$demand->description= $request['description'];
+		$demand->state_id = $request['state_id'];
+		$demand->city_id = $request['city_id'];	
+		$demand->user_id = $user_id;
+		$demand->ended = 0;
+		$resp = $demand->save();
 
-				}
-
-				return json_encode(Array('success' => true));
+		if ($resp) {
+			foreach ($request['atuations'] as $value) {
+				DB::insert('insert into atuation_demand (atuation_id, demand_id) values(?, ?)', [$value, $demand->id]);
 			}
-		} catch (Exception $error) {
-			error_log('exception: ');
-			error_log($error);
-		} finally {
-			return json_encode(Array('success' => false));
+			foreach ($request['services'] as $value) {
+				DB::insert('insert into demand_service (service_id, demand_id) values(?, ?)', [$value, $demand->id]);
+			}
+			return json_encode(Array('success' => true));
 		}
+
+		return json_encode(Array('success' => false));
 	}
 
 	public static function editDemand(Request $request) {
@@ -196,7 +188,20 @@ class DemandaController extends Controller
 
 		$id = Utils::getIdUser($request->header('Authorization'));
 
-		$demands = Demand::where('user_id',$id)->orderby('created_at', 'desc')->get();
+		$demands = (array) DB::select("
+						SELECT
+							d.id as id,
+							d.name as name,
+							d.description as description,
+							d.ended as ended,
+							d.executor_id as executor_id,
+							s.name as state_name,
+							c.name as city_name
+						FROM demands as d
+							join states as s on s.id = d.state_id
+							join cities as c on c.id = d.city_id
+						WHERE d.user_id='$id' AND d.executor_id IS NULL
+						ORDER BY d.created_at DESC");
 
 
 		$data = array();
@@ -263,10 +268,13 @@ class DemandaController extends Controller
 		}
 
 		return json_encode($data);
-
-
 	}
 
+	public static function demandName(Request $request) {
+		$demandIds = implode(', ', $request->ids);
+		$demands = DB::select('SELECT name FROM demands WHERE id IN (' . $demandIds . ')');
+		return json_encode($demands);
+	}
 
 
 }
