@@ -13,6 +13,8 @@ use App\City;
 use App\Utils;
 use App\Atuation;
 use App\Service;
+use App\Formation;
+use App\Titulation;
 use App\Demand;
 
 
@@ -36,6 +38,13 @@ class UtilsController extends Controller
 		return json_encode(Service::get());
 	}
 
+	public function getFormations(Request $request) {
+		return json_encode(Formation::get());
+	}
+
+	public function getTitulations(Request $request) {
+		return json_encode(Titulation::get());
+	}
 
 	public function historic(Request $request){
 		$id = Utils::getIdUser($request->header('Authorization'));
