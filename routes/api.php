@@ -37,6 +37,8 @@ Route::get('/utils-states/', 'Api\UtilsController@getStates');
 Route::get('/utils-cities/', 'Api\UtilsController@getCities');
 Route::get('/utils-atuations/', 'Api\UtilsController@getAtuations');
 Route::get('/utils-services/', 'Api\UtilsController@getServices');
+Route::get('/utils-formations/', 'Api\UtilsController@getFormations');
+Route::get('/utils-titulations/', 'Api\UtilsController@getTitulations');
 
 Route::get('/login', function () {
     return redirect('api');

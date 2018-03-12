@@ -196,7 +196,9 @@ class DemandaController extends Controller
 							d.ended as ended,
 							d.executor_id as executor_id,
 							s.name as state_name,
-							c.name as city_name
+							s.id as state_id,
+							c.name as city_name,
+							c.id as city_id
 						FROM demands as d
 							join states as s on s.id = d.state_id
 							join cities as c on c.id = d.city_id
