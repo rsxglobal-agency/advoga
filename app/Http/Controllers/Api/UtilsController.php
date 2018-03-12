@@ -39,8 +39,6 @@ class UtilsController extends Controller
 
 	public function historic(Request $request){
 		$id = Utils::getIdUser($request->header('Authorization'));
-
-		DB::enableQueryLog();
         $demands = (array) DB::select(" 
 	        				select * from `demands` 
 	        				where `ended` = 1 
