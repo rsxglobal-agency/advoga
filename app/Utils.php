@@ -6,6 +6,7 @@ use Image;
 use Auth;
 use DB;
 use App\User;
+use App\Demand;
 
 class Utils
 {
@@ -79,5 +80,47 @@ class Utils
 		return $resp[0];
 	}
 
+	public static function sendNotificationDemand($id){
+
+		$demand = new demand();
+		$user_demand = $demand->where('id',$id)->first();
+
+		$firebase = "https://advogaapp.firebaseio.com/users/$user_demand->user_id/dados/expToken.json";
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		    CURLOPT_RETURNTRANSFER => 1,
+		    CURLOPT_URL => $firebase,
+		    CURLOPT_USERAGENT => 'Advoga-app'
+		));
+		$respFire = curl_exec($curl);
+		curl_close($curl);
+		// print_r();
+		// die();
+
+		$msg = array
+		(
+			'to' 	=> 	json_decode($respFire),
+			'title'		=> "Nova Candidatura",
+			'sound'		=> "default",
+			'body'	=> "Existe uma candidatura para sua demanda!"
+
+		);
+		 
+		$headers = array
+		(
+			'Content-Type: application/json'
+		);
+		$ch = curl_init();
+		curl_setopt( $ch,CURLOPT_URL, 'https://exp.host/--/api/v2/push/send' );
+		curl_setopt( $ch,CURLOPT_POST, true );
+		curl_setopt( $ch,CURLOPT_HTTPHEADER, $headers );
+		curl_setopt( $ch,CURLOPT_RETURNTRANSFER, true );
+		curl_setopt( $ch,CURLOPT_SSL_VERIFYPEER, false );
+		curl_setopt( $ch,CURLOPT_POSTFIELDS, json_encode( $msg ) );
+		$result = curl_exec($ch );
+		curl_close( $ch );
+		// echo $result;
+		// die;		
+	}
 
 }

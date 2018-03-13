@@ -115,7 +115,10 @@ class DemandaController extends Controller
 
 	public function acceptDemand(Request $request){
 		$id = Utils::getIdUser($request->header('Authorization'));
+
 		$resp = Auth::user()->candidatos()->attach($request['id']);
+		Utils::sendNotificationDemand($request['demand_id']);
+
 		return json_encode(array('msg'=>'candidatura aceita, aguarde para aprovação!'));
 	}
 
