@@ -84,7 +84,8 @@ class Utils
 
 		$demand = new demand();
 		$user_demand = $demand->where('id',$id)->first();
-
+		var_dump($user_demand->user_id);
+		die();
 		$firebase = "https://advogaapp.firebaseio.com/users/$user_demand->user_id/dados/expToken.json";
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
