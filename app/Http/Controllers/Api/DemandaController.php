@@ -62,7 +62,7 @@ class DemandaController extends Controller
 		foreach ($arrayId as $key => $value) {
 			$arrayIds[] = "'$value'";
 		}
-		$i = $arrayIds ? implode(', ',$arrayIds) : "'$i'";
+		$i = $arrayIds ? implode(', ',$arrayIds) : "'$id'";
 
 		// DB::enableQueryLog();
 		$resp = (array) DB::select("
