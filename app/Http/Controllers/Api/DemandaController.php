@@ -57,6 +57,14 @@ class DemandaController extends Controller
 		$n = $name_city['name'];
 		$c = $whereCities ? implode(', ',$whereCities) : "'$n'";
 
+        $arrayId=Auth::user()->candidatos->pluck('id');
+		$arrayIds = [];
+		foreach ($arrayId as $key => $value) {
+			$arrayIds[] = "'$value'";
+		}
+		$i = $arrayIds ? implode(', ',$arrayIds) : "'$i'";
+
+		// DB::enableQueryLog();
 		$resp = (array) DB::select("
 		select	
 			d.id as id,
@@ -78,10 +86,9 @@ class DemandaController extends Controller
 			where d.user_id<>$id
 				and c.name in ($c)
 				and d.executor_id is null
-				and u.id not in (select executor_id from demand_executor)
+				and d.id not in ($i)
 			order by d.created_at desc limit 40
 		");
-
 		$array = array();
 		$dados = array();
 

@@ -3,41 +3,6 @@
 @section('content') 
 
 
-<!--div class="col-lg-12">
-  <div class="profile-widget profile-widget-info">
-    <div class="panel-body">
-       <div class="col-sm-2">
-          <div class="follow-ava">
-
-         @if(Auth::user()->image!='')   
-             <img alt="" src="{{URL::to('/uploads/avatars')}}/{{ Auth::user()->image }}" width="500"/>
-         @else
-            <img alt="" src="{{ URL::to('/img/avatar/default.jpg') }}" width="500"/>
-         @endif
-
-  </div>
-    <h6>{{Auth::user()->titulation->name}}</h6>
-
-    <Votação de Estrelas >
-
-    @include('includes.rateuser')
-
-  <div class="follow-info">
-    <h4>{{Auth::user()->name}}</h4>
-    <p>{{Auth::user()->description}}</p>
-    <p><i class="fa fa-linkedin"> <a href="http://www.{{Auth::user()->social}}" target="_blank" style="text-decoration:none;color:#FFF "> {{Auth::user()->social}}</a></i></p>
-    <p>
-    <h6> 
-
-    <span><i class="icon_pin_alt"></i>{{Auth::user()->state->name}}, {{Auth::user()->city->name}}</span>
-    </h6>
-    </p>
-  </div>
-  </div>
-  </div>
-  </div>
-  </div-->
-
   <!--teste leo-->
     <div class="flex-profile" id="flex-profile">
       <div class="flex-photo-header" id="flex-photo-header">
@@ -51,34 +16,34 @@
           <p class="titulation_name_header" id="titulation_name_header">{{Auth::user()->titulation->name}}</p>
            <div align="center" id="modal_user_rate_header">
                  @if (Auth::user()->rate >=1 )
-                                                          <span><i class="icon_star" id="icon_star_header"></i></span>
-                                                          @else 
-                                                          <span><i class="icon_star_alt" id="icon_star_alt_header"></i></span>
-                                                          @endif
+                      <span><i class="icon_star" id="icon_star_header"></i></span>
+                      @else 
+                      <span><i class="icon_star_alt" id="icon_star_alt_header"></i></span>
+                      @endif
 
-                                                          @if (Auth::user()->rate >=2 )
-                                                          <span><i class="icon_star" id="icon_star_header"></i></span>
-                                                          @else 
-                                                          <span><i class="icon_star_alt" id="icon_star_alt_header"></i></span>
-                                                          @endif
-    
-                                                          @if (Auth::user()->rate >=3 )
-                                                          <span><i class="icon_star" id="icon_star_header"></i></span>
-                                                          @else 
-                                                          <span><i class="icon_star_alt" id="icon_star_alt_header"></i></span>
-                                                          @endif
-    
-                                                          @if (Auth::user()->rate >=4 )
-                                                          <span><i class="icon_star" id="icon_star_header"></i></span>
-                                                          @else 
-                                                          <span><i class="icon_star_alt" id="icon_star_alt_header"></i></span>
-                                                          @endif
-    
-                                                          @if (Auth::user()->rate >=5 )
-                                                          <span><i class="icon_star" id="icon_star_header"></i></span>
-                                                          @else 
-                                                          <span><i class="icon_star_alt" id="icon_star_alt_header"></i></span>
-                                                          @endif 
+                      @if (Auth::user()->rate >=2 )
+                      <span><i class="icon_star" id="icon_star_header"></i></span>
+                      @else 
+                      <span><i class="icon_star_alt" id="icon_star_alt_header"></i></span>
+                      @endif
+
+                      @if (Auth::user()->rate >=3 )
+                      <span><i class="icon_star" id="icon_star_header"></i></span>
+                      @else 
+                      <span><i class="icon_star_alt" id="icon_star_alt_header"></i></span>
+                      @endif
+
+                      @if (Auth::user()->rate >=4 )
+                      <span><i class="icon_star" id="icon_star_header"></i></span>
+                      @else 
+                      <span><i class="icon_star_alt" id="icon_star_alt_header"></i></span>
+                      @endif
+
+                      @if (Auth::user()->rate >=5 )
+                      <span><i class="icon_star" id="icon_star_header"></i></span>
+                      @else 
+                      <span><i class="icon_star_alt" id="icon_star_alt_header"></i></span>
+                      @endif 
            </div>
       </div>
       <div class="flex-textos-header" id="flex-textos-header">

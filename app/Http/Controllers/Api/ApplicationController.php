@@ -39,7 +39,8 @@ class ApplicationController extends Controller
 									join states as s on s.id=d.state_id
 									join cities as c on c.id=d.city_id
 									where de.executor_id='$id'
-									and d.executor_id is null										
+									and d.executor_id is null
+									order by d.id desc										
 									");
 	    $dados = array();
 	     
