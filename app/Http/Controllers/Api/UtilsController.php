@@ -50,7 +50,8 @@ class UtilsController extends Controller
 		$id = Utils::getIdUser($request->header('Authorization'));
         $demands = (array) DB::select(" 
 	        				SELECT * FROM `demands` 
-	        				WHERE `ended` = 1 
+	        				WHERE `ended` = 1
+	        				AND (`user_id` = '$id' OR `executor_id` = '$id')
 	        				ORDER BY `created_at` DESC
         				");
        
@@ -71,6 +72,4 @@ class UtilsController extends Controller
         return json_encode($data);
 
 	}
-
-
 }
