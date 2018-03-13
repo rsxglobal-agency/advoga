@@ -118,7 +118,7 @@ class DemandaController extends Controller
 		$demand = new demand();
 		$user_demand = $demand->where('id',$request['demand_id'])->first();
 		if($user_demand!=NULL){
-			$resp = Auth::user()->candidatos()->attach($request['id']);
+			Auth::user()->candidatos()->attach($request['demand_id']);
 			Utils::sendNotificationDemand($user_demand->user_id);
 
 			return json_encode(array('msg'=>'candidatura aceita, aguarde para aprovação!'));
