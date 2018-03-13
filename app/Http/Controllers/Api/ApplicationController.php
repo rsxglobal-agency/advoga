@@ -42,7 +42,7 @@ class ApplicationController extends Controller
 									and d.executor_id is null
 									order by d.id desc										
 									");
-	    $dados = array();
+	    $array = array();
 	     
 
 		foreach ($demands as $demand){
