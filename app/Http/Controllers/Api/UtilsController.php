@@ -49,10 +49,21 @@ class UtilsController extends Controller
 	public function historic(Request $request){
 		$id = Utils::getIdUser($request->header('Authorization'));
         $demands = (array) DB::select(" 
-	        				SELECT * FROM `demands` 
-	        				WHERE `ended` = 1
-	        				AND (`user_id` = '$id' OR `executor_id` = '$id')
-	        				ORDER BY `created_at` DESC
+							SELECT
+								d.id as id,
+								d.name as name,
+								d.description as description,
+								d.ended as ended,
+								d.executor_id as executor_id,
+								s.id as state_id,
+								s.name as state_name,
+								c.id as city_id,
+								c.name as city_name
+							FROM demands as d
+								JOIN states as s on s.id = d.state_id
+								JOIN cities as c on c.id = d.city_id
+							WHERE d.ended = 1 AND (d.user_id = '$id' OR d.executor_id = '$id')
+							ORDER BY d.created_at DESC
         				");
        
         $data = array();
