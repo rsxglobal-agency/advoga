@@ -81,12 +81,7 @@ class Utils
 	}
 
 	public static function sendNotificationDemand($id){
-
-		$demand = new demand();
-		$user_demand = $demand->where('id',$id)->first();
-		var_dump($user_demand->user_id);
-		die();
-		$firebase = "https://advogaapp.firebaseio.com/users/$user_demand->user_id/dados/expToken.json";
+		$firebase = "https://advogaapp.firebaseio.com/users/$id/dados/expToken.json";
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
 		    CURLOPT_RETURNTRANSFER => 1,
@@ -103,7 +98,7 @@ class Utils
 			'to' 	=> 	json_decode($respFire),
 			'title'		=> "Nova Candidatura",
 			'sound'		=> "default",
-			'body'	=> "Existe uma candidatura para sua demanda!"
+			'body'	=> "Existe uma nova candidatura para sua demanda!"
 
 		);
 		 
