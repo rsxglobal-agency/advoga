@@ -54,7 +54,14 @@ class UtilsController extends Controller
 								d.name as name,
 								d.description as description,
 								d.ended as ended,
-								d.executor_id as executor_id,
+								u.id as user_id,
+								e.id as executor_id,
+								u.name as user_name,
+								e.name as executor_name,
+								u.image as user_img,
+								e.image as executor_img,
+								u.rate as user_rate,
+								e.rate as executor_rate,
 								s.id as state_id,
 								s.name as state_name,
 								c.id as city_id,
@@ -62,6 +69,8 @@ class UtilsController extends Controller
 							FROM demands as d
 								JOIN states as s on s.id = d.state_id
 								JOIN cities as c on c.id = d.city_id
+								JOIN users as u on u.id = d.user_id
+								JOIN users as e on e.id = d.executor_id
 							WHERE d.ended = 1 AND (d.user_id = '$id' OR d.executor_id = '$id')
 							ORDER BY d.created_at DESC
         				");
