@@ -49,10 +49,10 @@ class UtilsController extends Controller
 	public function historic(Request $request){
 		$id = Utils::getIdUser($request->header('Authorization'));
         $demands = (array) DB::select(" 
-	        				select * from `demands` 
-	        				where `ended` = 1 
-	        				and (`user_id` = 351 or `executor_id` = 351) 
-	        				order by `created_at` desc
+	        				SELECT * FROM `demands` 
+	        				WHERE `ended` = 1
+	        				AND (`user_id` = '$id' OR `executor_id` = '$id')
+	        				ORDER BY `created_at` DESC
         				");
        
         $data = array();
@@ -72,6 +72,4 @@ class UtilsController extends Controller
         return json_encode($data);
 
 	}
-
-
 }
