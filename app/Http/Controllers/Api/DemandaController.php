@@ -127,7 +127,7 @@ class DemandaController extends Controller
 			(
 				'expToken' 	=> 	$expToken,
 				'titleNotification'	=> "Parabéns pelo novo candidato!",
-				'msg'	=> "O ".$info->nome." candidatou-se para a demanda Nº: #".$request['demand_id']
+				'msg'	=> $info->nome." candidatou-se para a demanda Nº: #".$request['demand_id']
 
 			);
 			$respNoti = Utils::sendNotification($arrayInfo);
