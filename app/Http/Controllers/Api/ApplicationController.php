@@ -87,7 +87,7 @@ class ApplicationController extends Controller
 									JOIN users as e on e.id = d.executor_id
 									JOIN states as s on s.id = d.state_id
 									JOIN cities as c on c.id = d.city_id
-								WHERE executor_id='$id' ORDER BY created_at DESC
+								WHERE d.executor_id='$id' ORDER BY d.created_at DESC
 								");
 		$data = array();
 		 
