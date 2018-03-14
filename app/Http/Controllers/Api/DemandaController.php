@@ -240,14 +240,12 @@ class DemandaController extends Controller
 		    $services = Demand::find($demand->id)->services()->orderBy('id')->pluck('name')->toArray();
 		    $services_ids = Demand::find($demand->id)->services()->orderBy('id')->pluck('id')->toArray();
 		    $services = implode (", ", $services);
-		    $services_ids = implode(", ", $services_ids);
 		    $demand->services = $services;
 		    $demand->services_ids = $services_ids;
 
 		    $atuations = Demand::find($demand->id)->atuations()->orderBy('id')->pluck('name')->toArray();
 		    $atuations_ids = Demand::find($demand->id)->atuations()->orderBy('id')->pluck('id')->toArray();
 		    $atuations = implode(", ", $atuations);
-		    $atuations_ids = implode(", ", $atuations_ids);
 		    $demand->atuations = $atuations;
 		    $demand->atuations_ids = $atuations_ids;
 

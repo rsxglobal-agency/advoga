@@ -72,19 +72,42 @@ class ApplicationController extends Controller
 		$id = Utils::getIdUser($request->header('Authorization'));
 
 		$demands = (array) DB::select("  
-								select * from demands where executor_id='$id'
+								SELECT
+									d.id as id,
+									d.name as name,
+									d.description as description,
+									u.id as user_id,
+									u.rate as user_rate,
+									u.image as user_img,
+									u.name as user_name,
+									e.id as executor_id,
+									s.id as state_id,
+									s.name as state_name,
+									c.id as city_id,
+									c.name as city_name
+								FROM demands as d
+									JOIN users as u on u.id = d.user_id
+									JOIN users as e on e.id = d.executor_id
+									JOIN states as s on s.id = d.state_id
+									JOIN cities as c on c.id = d.city_id
+								WHERE d.executor_id='$id' ORDER BY d.created_at DESC
 								");
 		$data = array();
 		 
 		 foreach ($demands as $demand){
 		        
-		        $services = Demand::find($demand->id)->services()->orderBy('name')->pluck('name')->toArray();
+		        $services = Demand::find($demand->id)->services()->orderBy('id')->pluck('name')->toArray();
+		        $services_ids = Demand::find($demand->id)->services()->orderBy('id')->pluck('id')->toArray();
 		        $services = implode (", ", $services);
 		        $demand->services = $services;
+		        $demand->services_ids = $services_ids;
 
-		        $atuations = Demand::find($demand->id)->atuations()->orderBy('name')->pluck('name')->toArray();
+		        $atuations = Demand::find($demand->id)->atuations()->orderBy('id')->pluck('name')->toArray();
+		        $atuations_ids = Demand::find($demand->id)->atuations()->orderBy('id')->pluck('id')->toArray();
 		        $atuations = implode(", ", $atuations);
 		        $demand->atuations = $atuations;
+		        $demand->atuations_ids = $atuations_ids;
+
 		        $data[]  = $demand;
 
 		} 
