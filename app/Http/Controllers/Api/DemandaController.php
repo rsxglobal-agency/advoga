@@ -130,9 +130,7 @@ class DemandaController extends Controller
 				'msg'	=> $info->nome." candidatou-se para a demanda Nº: #".$request['demand_id']
 
 			);
-			$respNoti = Utils::sendNotification($arrayInfo);
-			print_r($respNoti);
-			die();
+			Utils::sendNotification($arrayInfo);
 			return json_encode(array('msg'=>'candidatura aceita, aguarde para aprovação!'));
 		}else{
 			return json_encode(array('msg'=>'Erro ao se candidatar, essa demanda ja foi concluída!'));
