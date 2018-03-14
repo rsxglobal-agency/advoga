@@ -73,13 +73,14 @@ class ApplicationController extends Controller
 
 		$demands = (array) DB::select("  
 								SELECT
-									d.id as id
+									d.id as id,
 									d.name as name,
 									u.id as user_id,
-									e.id as executor_id
-									s.id as state_id
-									s.name as state_name
-									c.id as city_id
+									u.rate as user_rate,
+									e.id as executor_id,
+									s.id as state_id,
+									s.name as state_name,
+									c.id as city_id,
 									c.name as city_name
 								FROM demands as d
 									JOIN users as u on u.id = d.user_id
