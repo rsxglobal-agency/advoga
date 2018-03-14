@@ -80,7 +80,37 @@ class Utils
 		return $resp[0];
 	}
 
-	public static function sendNotificationDemand($id){
+
+	public static function getInfoUserFirebase($id){
+
+		$firebase = "https://advogaapp.firebaseio.com/users/$id/dados.json";
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		    CURLOPT_RETURNTRANSFER => 1,
+		    CURLOPT_URL => $firebase,
+		    CURLOPT_USERAGENT => 'Advoga-app'
+		));
+		$response = curl_exec($curl);
+		curl_close($curl);
+		return json_decode($response);
+	}
+
+	public static function getLatLongFirebase($id){
+
+		$firebase = "https://advogaapp.firebaseio.com/users/$id/dados/geoAtual.json";
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		    CURLOPT_RETURNTRANSFER => 1,
+		    CURLOPT_URL => $firebase,
+		    CURLOPT_USERAGENT => 'Advoga-app'
+		));
+		$response = curl_exec($curl);
+		curl_close($curl);
+		return json_decode($response);
+	}
+
+	public static function getExpTokenFirebase($id){
+
 		$firebase = "https://advogaapp.firebaseio.com/users/$id/dados/expToken.json";
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
@@ -88,17 +118,20 @@ class Utils
 		    CURLOPT_URL => $firebase,
 		    CURLOPT_USERAGENT => 'Advoga-app'
 		));
-		$respFire = curl_exec($curl);
+		$response = curl_exec($curl);
 		curl_close($curl);
-		// print_r();
-		// die();
+		return json_decode($response);
+	}
+
+	public static function sendNotification($arrayInfo=NULL){
+
 
 		$msg = array
 		(
-			'to' 	=> 	json_decode($respFire),
-			'title'		=> "Nova Candidatura",
-			'sound'		=> "default",
-			'body'	=> "Existe uma nova candidatura para sua demanda!"
+			'to' 	=> 	$arrayInfo['expToken'],
+			'title'	=> $arrayInfo['titleNotification'],
+			'sound'	=> "default",
+			'body'	=> $arrayInfo['msg']
 
 		);
 		 
@@ -115,8 +148,8 @@ class Utils
 		curl_setopt( $ch,CURLOPT_POSTFIELDS, json_encode( $msg ) );
 		$result = curl_exec($ch );
 		curl_close( $ch );
-		// echo $result;
-		// die;		
+		
+		return $result;
 	}
 
 }
