@@ -95,9 +95,9 @@ class Utils
 		return json_decode($response);
 	}
 
-	public static function getLatLongFirebase($id){
+	public static function getLocationFirebase($id){
 
-		$firebase = "https://advogaapp.firebaseio.com/users/$id/dados/geoAtual.json";
+		$firebase = "https://advogaapp.firebaseio.com/users/$id/dados/location.json";
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
 		    CURLOPT_RETURNTRANSFER => 1,
