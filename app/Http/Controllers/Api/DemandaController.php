@@ -194,17 +194,28 @@ class DemandaController extends Controller
 
 	public static function editDemand(Request $request) {
 		$user_id = Utils::getIdUser($request->header('Authorization'));
-		$demand = New Demand;
+
+		$demand = new Demand;
+
 		$demand->name = $request['name'];
 		$demand->description= $request['description'];
 		$demand->state_id = $request['state_id'];
-		$demand->city_id = $request['city_id'];
-		$demand->atuations = $request['atuations'];
-		$demand->services = $request['services'];
+		$demand->city_id = $request['city_id'];	
 		$demand->user_id = $user_id;
-		$demand->where('id',$request['id'])->update($demand->toArray());
-		return json_encode($var);
+		$demand->ended = 0;
+		$resp = $demand->where('id',$request['id'])->update($demand->toArray());
 
+		if ($resp) {
+			DB::delete('DELETE FROM atuation_demand WHERE demand_id=?', [$request['id']]);
+			foreach ($request['atuations'] as $value)
+				DB::insert('INSERT INTO atuation_demand (atuation_id, demand_id) VALUES(?, ?)', [$value, $request['id']]);
+			DB::delete('DELETE FROM demand_service WHERE demand_id=?', [$request['id']]);
+			foreach ($request['services'] as $value)
+				DB::insert('INSERT INTO demand_service (service_id, demand_id) VALUES(?, ?)', [$value, $request['id']]);
+			return json_encode(Array('success' => true));
+		}
+
+		return json_encode(Array('success' => false));
 	}
 
 	public static function myDemands(Request $request)
