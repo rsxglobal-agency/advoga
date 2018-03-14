@@ -116,11 +116,21 @@ class DemandaController extends Controller
 	public function acceptDemand(Request $request){
 		$id = Utils::getIdUser($request->header('Authorization'));
 		$demand = new demand();
-		$user_demand = $demand->where('id',$request['demand_id'])->first();
-		if($user_demand!=NULL){
-			Auth::user()->candidatos()->attach($request['demand_id']);
-			Utils::sendNotificationDemand($user_demand->user_id);
+		$property_demand = $demand->where('id',$request['demand_id'])->first();
+		if($property_demand!=NULL){
+			//Auth::user()->candidatos()->attach($request['demand_id']);
 
+			$expToken 	= Utils::getExpTokenFirebase($property_demand->user_id);
+			$info 		= Utils::getInfoUserFirebase($id);
+
+			$arrayInfo = array
+			(
+				'expToken' 	=> 	$expToken,
+				'titleNotification'	=> "Parabéns pelo novo candidato!",
+				'msg'	=> $info->nome." candidatou-se para a demanda Nº: #".$request['demand_id']
+
+			);
+			Utils::sendNotification($arrayInfo);
 			return json_encode(array('msg'=>'candidatura aceita, aguarde para aprovação!'));
 		}else{
 			return json_encode(array('msg'=>'Erro ao se candidatar, essa demanda ja foi concluída!'));
