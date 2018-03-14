@@ -75,8 +75,11 @@ class ApplicationController extends Controller
 								SELECT
 									d.id as id,
 									d.name as name,
+									d.description as description,
 									u.id as user_id,
 									u.rate as user_rate,
+									u.image as user_img,
+									u.name as user_name,
 									e.id as executor_id,
 									s.id as state_id,
 									s.name as state_name,
