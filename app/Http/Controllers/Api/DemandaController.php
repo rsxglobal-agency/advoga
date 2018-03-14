@@ -118,8 +118,7 @@ class DemandaController extends Controller
 		$demand = new demand();
 		$property_demand = $demand->where('id',$request['demand_id'])->first();
 		if($property_demand!=NULL){
-			//Auth::user()->candidatos()->attach($request['demand_id']);
-
+			Auth::user()->candidatos()->attach($request['demand_id']);
 			$expToken 	= Utils::getExpTokenFirebase($property_demand->user_id);
 			$info 		= Utils::getInfoUserFirebase($id);
 
