@@ -124,8 +124,6 @@ class Utils
 	}
 
 	public static function sendNotification($arrayInfo=NULL){
-
-
 		$msg = array
 		(
 			'to' 	=> 	$arrayInfo['expToken'],
@@ -148,7 +146,7 @@ class Utils
 		curl_setopt( $ch,CURLOPT_POSTFIELDS, json_encode( $msg ) );
 		$result = curl_exec($ch );
 		curl_close( $ch );
-		
+
 		return $result;
 	}
 
