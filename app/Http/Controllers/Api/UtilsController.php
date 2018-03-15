@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App;
 use DB;
 use Auth;
+use App\User;
 use App\State;
 use App\City;
 use App\Utils;
@@ -90,6 +91,17 @@ class UtilsController extends Controller
             $data[]  = $demand;
         } 
         return json_encode($data);
+
+	}
+
+	public function userInfo(Request $request) {
+		$id = Utils::getIdUser($request->header('Authorization'));
+		$user = DB::select('SELECT * FROM users WHERE id=?', [$id]);
+		if ($user) {
+			$user->password = Hash::
+			return json_encode($user);
+		}
+		return json_encode(Array('msg' => 'Usuário não encontrado'));
 
 	}
 }
