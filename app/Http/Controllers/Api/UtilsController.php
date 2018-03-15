@@ -97,11 +97,35 @@ class UtilsController extends Controller
 	public function userInfo(Request $request) {
 		$id = Utils::getIdUser($request->header('Authorization'));
 		$user = DB::select('SELECT * FROM users WHERE id=?', [$id]);
-		if ($user) {
-			$user->password = Hash::
-			return json_encode($user);
-		}
-		return json_encode(Array('msg' => 'Usuário não encontrado'));
+		return json_encode($user);
+	}
 
+	public function editProfile(Request $request) {
+		$user = new User();
+
+		$user->name = $request['name'];
+		$user->email = $request['email'];
+		$user->state_id = $request['state_id'];
+		$user->city_id = $request['city_id'];
+		$user->titulation_id = $request['titulation_id'];
+		$user->formation_id = $request['formation_id'];
+		$user->image = '';
+		$user->description = '';
+		$user->social = '';
+		$user->api_token = '';
+		$user->active = 1;
+
+		$resp = $user->update();
+		if ($resp) {
+			if ($user->image != '') {
+				Image::make($user->image)->save(public_path('uploads/avatars/foto_avatar_' . string($user->id) . '.jpeg'));
+
+				$user->image = 'foto_avatar_' . string($user->id) . '.jpeg';
+				$user->update();
+			}
+			return json_encode(Array('success' => true, 'msg' => 'Conta cadastrada com sucesso!'));
+		} else {
+			return json_encode(Array('success' => false, 'msg' => 'Não foi possível realizar o cadastro!'));
+		}
 	}
 }

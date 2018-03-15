@@ -104,14 +104,20 @@ class LoginController extends Controller
 		$user->city_id = $request['city_id'];
 		$user->titulation_id = $request['titulation_id'];
 		$user->formation_id = $request['formation_id'];
+		$user->image = '';
 		$user->description = '';
 		$user->social = '';
-		$user->image = '';
 		$user->api_token = '';
 		$user->active = 1;
-
 		$resp = $user->save();
 		if ($resp) {
+			if ($request['image'] != '') {
+				$path = '/uploads/avatars/foto_avatar_' + string($user->id) + '.jpeg';
+				$fp = fopen($path, '+wb');
+				fwrite($fp, base64_decode($request['image']));
+				fclose($fp);
+				DB::update('UPDATE users SET image=\'?\' WHERE id=?', 'foto_avatar_' + string($user->id), $user->id);
+			}
 			return json_encode(Array('success' => true, 'msg' => 'Conta cadastrada com sucesso!'));
 		} else {
 			return json_encode(Array('success' => false, 'msg' => 'Não foi possível realizar o cadastro!'));
