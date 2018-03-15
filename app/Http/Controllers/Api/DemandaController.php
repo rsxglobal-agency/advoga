@@ -103,7 +103,7 @@ class DemandaController extends Controller
 			$dados['descricaodemanda']	= $value->descricaodemanda;
 			$dados['estado']			= $value->estado;
 			$dados['cidade']			= $value->cidade;
-			$dados['data']				= date("d-m-Y H:i", strtotime($value->data));
+			$dados['data']				= date("d/m/Y H:i", strtotime($value->data));
 			$dados['atuacao']			= Utils::getDemand($value->demand_id);
 			$dados['serv_prestado']		= Utils::getService($value->demand_id);
 
