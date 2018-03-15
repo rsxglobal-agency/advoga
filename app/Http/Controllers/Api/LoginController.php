@@ -21,7 +21,7 @@ use App\AppResult;
 
 class LoginController extends Controller
 {
-	public function loginUser(Request $request){
+	public function loginUser(Request $request) {
 		$auth = Auth::guard('web');
 
 
@@ -86,6 +86,7 @@ class LoginController extends Controller
 		} else {
 			return AppResult::error('Email e/ou senha inválido(s)', 10);
 		}
-
 	}
+
+
 }

@@ -136,7 +136,7 @@ class DemandaController extends Controller
 		}
 	}
 
-	public function cancelDemand(Request $request){
+	public function cancelDemand(Request $request) {
 		$id = Utils::getIdUser($request->header('Authorization'));
 
 		$demand = new Demand();
@@ -148,6 +148,22 @@ class DemandaController extends Controller
 		else{
 			return json_encode(array('msg'=>'erro ao cancelar!'));
 		}	
+	}
+
+	public function deleteDemand(Request $request) {
+		$id = Utils::getIdUser($request->header('Authorization'));
+		error_log('demand_id: ');
+		error_log($request['demand_id']);
+		$demand = new Demand();
+		DB::delete('DELETE FROM atuation_demand WHERE demand_id=?', [$request['demand_id']]);
+		DB::delete('DELETE FROM demand_service WHERE demand_id=?', [$request['demand_id']]);
+		DB::delete('DELETE FROM demand_executor WHERE demand_id=?', [$request['demand_id']]);
+		$resp = $demand->where('id', '=', $request['demand_id'])->delete();
+		if ($resp) {
+			return json_encode(array('msg' => 'Demanda excluída com sucesso!'));
+		} else {
+			return json_encode(array('msg' => 'Erro ao excluir'));
+		}
 	}
 
 	public function concludeDemand(Request $request){

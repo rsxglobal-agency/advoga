@@ -18,6 +18,7 @@ Route::group(['middleware' => 'auth:api'], function(){
 	Route::post('/accept-demand/', 'Api\DemandaController@acceptDemand');
 	Route::post('/send-demand/', 'Api\DemandaController@sendDemand');
 	Route::post('/edit-demand/', 'Api\DemandaController@editDemand');
+	Route::post('/delete-demand/', 'Api\DemandaController@deleteDemand');
 	Route::post('/cancel-demand/', 'Api\DemandaController@cancelDemand');
 	Route::post('/conclude-demand/', 'Api\DemandaController@concludeDemand');
 	//minhas demandas
