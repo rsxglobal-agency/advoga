@@ -88,5 +88,34 @@ class LoginController extends Controller
 		}
 	}
 
+	public function registerUser(Request $request) {
+		$user = new User();
+
+		$hasEmail = DB::select('SELECT email FROM users where email=?', [$request['email']]);
+		if ($hasEmail) {
+			return json_encode(Array('success' => false, 'msg' => 'Email já cadastrado!'));
+		}
+
+		$user->name = $request['name'];
+		$user->email = $request['email'];
+		$user->password = $request['password'];
+		$user->state_id = $request['state_id'];
+		$user->city_id = $request['city_id'];
+		$user->titulation_id = $request['titulation_id'];
+		$user->formation_id = $request['formation_id'];
+		$user->description = '';
+		$user->social = '';
+		$user->image = '';
+		$user->api_token = '';
+		$user->active = 1;
+
+		$resp = $user->save();
+		if ($resp) {
+			return json_encode(Array('success' => true, 'msg' => 'Conta cadastrada com sucesso!'));
+		} else {
+			return json_encode(Array('success' => false, 'msg' => 'Não foi possível realizar o cadastro!'));
+		}
+	}
+
 
 }

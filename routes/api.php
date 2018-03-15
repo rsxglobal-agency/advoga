@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::group(['middleware' => 'auth:api'], function(){
+Route::group(['middleware' => 'auth:api'], function() {
 	Route::get('/feed-demandas/', 'Api\DemandaController@GetDemands');
 	Route::post('/accept-demand/', 'Api\DemandaController@acceptDemand');
 	Route::post('/send-demand/', 'Api\DemandaController@sendDemand');
@@ -30,10 +30,9 @@ Route::group(['middleware' => 'auth:api'], function(){
 	Route::get('/my-executions/', 'Api\ApplicationController@myExecutions');
 	Route::get('/historic/', 'Api\UtilsController@historic');
 	Route::post('/cancel-application/', 'Api\ApplicationController@cancelApplication');
-
-
 });
 
+Route::post('/register-user/', 'Api\LoginController@registerUser');
 Route::get('/utils-states/', 'Api\UtilsController@getStates');
 Route::get('/utils-cities/', 'Api\UtilsController@getCities');
 Route::get('/utils-atuations/', 'Api\UtilsController@getAtuations');
