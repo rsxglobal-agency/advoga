@@ -152,8 +152,6 @@ class DemandaController extends Controller
 
 	public function deleteDemand(Request $request) {
 		$id = Utils::getIdUser($request->header('Authorization'));
-		error_log('demand_id: ');
-		error_log($request['demand_id']);
 		$demand = new Demand();
 		DB::delete('DELETE FROM atuation_demand WHERE demand_id=?', [$request['demand_id']]);
 		DB::delete('DELETE FROM demand_service WHERE demand_id=?', [$request['demand_id']]);

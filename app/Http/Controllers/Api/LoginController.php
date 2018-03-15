@@ -91,14 +91,15 @@ class LoginController extends Controller
 	public function registerUser(Request $request) {
 		$user = new User();
 
-		$hasEmail = DB::select('SELECT email FROM users where email=?', [$request['email']]);
+		$hasEmail = DB::select('SELECT email FROM users where email=\'?\'', [$request['email']]);
 		if ($hasEmail) {
 			return json_encode(Array('success' => false, 'msg' => 'Email já cadastrado!'));
 		}
 
+
 		$user->name = $request['name'];
 		$user->email = $request['email'];
-		$user->password = $request['password'];
+		$user->password = Hash::make($request['password']);
 		$user->state_id = $request['state_id'];
 		$user->city_id = $request['city_id'];
 		$user->titulation_id = $request['titulation_id'];
