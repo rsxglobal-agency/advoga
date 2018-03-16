@@ -18,7 +18,7 @@ class DemandaController extends Controller
 {
 
 	private function getCoords($city){
-		$url_googleapis = 'https://maps.googleapis.com/maps/api/geocode/json?address='.implode('+',explode(' ',$city));
+		$url_googleapis = 'https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyBm75P1yg7VJCl9bDjM90LTKSItwTtVtH0&address='.implode('+',explode(' ',$city));
 		$geocodeObject = json_decode(file_get_contents($url_googleapis), true);
 		if(isset($geocodeObject['results'][0])){
 			return $geocodeObject['results'][0]['geometry']['location'];
@@ -341,9 +341,21 @@ class DemandaController extends Controller
 
 
 	public static function acceptCandidate(Request $request) {
+		$id = Utils::getIdUser($request->header('Authorization'));
 		$resp = DB::update('UPDATE demands SET executor_id=? WHERE id=?', [$request['candidate_id'], $request['demand_id']]);
 		if ($resp) {
 			DB::delete('DELETE FROM demand_executor WHERE demand_id=?', [$request['demand_id']]);
+			$expToken 	= Utils::getExpTokenFirebase($request['candidate_id']);
+			$info 		= Utils::getInfoUserFirebase($id);
+
+			$arrayInfo = array
+			(
+				'expToken' 	=> 	$expToken,
+				'titleNotification'	=> "Parabéns, você foi selecionado para executar uma demanda!",
+				'msg'	=> $info->nome." selecionou você para a demanda Nº: #".$request['demand_id']
+
+			);
+			Utils::sendNotification($arrayInfo);
 			return json_encode(array('msg' => 'Sua demanda agora está em execução', 'success' => true));
 		}
 		return json_encode(array('msg' => 'Falha no engano', 'success' => false));
