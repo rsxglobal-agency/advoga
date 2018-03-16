@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App;
 use DB;
@@ -89,14 +90,12 @@ class LoginController extends Controller
 	}
 
 	public function registerUser(Request $request) {
-		$user = new User();
-
-		$hasEmail = DB::select('SELECT email FROM users where email=\'?\'', [$request['email']]);
+		$hasEmail = DB::select('SELECT email FROM users WHERE email=?', [$request['email']]);
 		if ($hasEmail) {
 			return json_encode(Array('success' => false, 'msg' => 'Email já cadastrado!'));
 		}
 
-
+		$user = new User();
 		$user->name = $request['name'];
 		$user->email = $request['email'];
 		$user->password = Hash::make($request['password']);
@@ -112,11 +111,10 @@ class LoginController extends Controller
 		$resp = $user->save();
 		if ($resp) {
 			if ($request['image'] != '') {
-				$path = '/uploads/avatars/foto_avatar_' + string($user->id) + '.jpeg';
-				$fp = fopen($path, '+wb');
-				fwrite($fp, base64_decode($request['image']));
-				fclose($fp);
-				DB::update('UPDATE users SET image=\'?\' WHERE id=?', 'foto_avatar_' + string($user->id), $user->id);
+				error_log('IMAGE: ');
+				error_log($request['image']);
+				Storage::disk('local')->put('uploads/avatars/foto_avatar_' . strval($user->id) . '.jpg', base64_decode($request['image']));
+				DB::update('UPDATE users SET image=? WHERE id=?', ['foto_avatar_' . strval($user->id) . '.jpg', $user->id]);
 			}
 			return json_encode(Array('success' => true, 'msg' => 'Conta cadastrada com sucesso!'));
 		} else {
