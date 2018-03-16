@@ -113,10 +113,19 @@ class DemandaController extends Controller
 	}
 
 
-	public function acceptDemand(Request $request){
+	public function acceptDemand(Request $request) {
 		$id = Utils::getIdUser($request->header('Authorization'));
+		error_log('LALA: ');
+		error_log($request['demand_id']);
+		$verify = DB::select('SELECT * FROM demand_executor WHERE executor_id=? AND demand_id=?',
+		                     [$id, $request['demand_id']]);
+		if (!empty($verify)) {
+			return json_encode(array('msg' => 'Você já é candidato para esta demanda!', 'success' => false));
+		}
+
 		$demand = new demand();
 		$property_demand = $demand->where('id',$request['demand_id'])->first();
+
 		if($property_demand!=NULL){
 			Auth::user()->candidatos()->attach($request['demand_id']);
 			$expToken 	= Utils::getExpTokenFirebase($property_demand->user_id);
@@ -130,9 +139,9 @@ class DemandaController extends Controller
 
 			);
 			Utils::sendNotification($arrayInfo);
-			return json_encode(array('msg'=>'candidatura aceita, aguarde para aprovação!'));
+			return json_encode(array('msg'=>'candidatura aceita, aguarde para aprovação!', 'success' => true));
 		}else{
-			return json_encode(array('msg'=>'Erro ao se candidatar, essa demanda ja foi concluída!'));
+			return json_encode(array('msg'=>'Erro ao se candidatar, essa demanda já foi concluída!', 'success' => false));
 		}
 	}
 
@@ -168,6 +177,7 @@ class DemandaController extends Controller
 		$id = Utils::getIdUser($request->header('Authorization'));
 
 		$demand = new Demand();
+		$demand->ended = true;
 		$demand->conclude1 = true; 
 		$demand->conclude2 = true; 
 		$resp = $demand->where('id', '=', $request['demand_id'])->update($demand->toArray());
