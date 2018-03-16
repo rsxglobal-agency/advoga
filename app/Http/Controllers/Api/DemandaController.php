@@ -330,4 +330,22 @@ class DemandaController extends Controller
 	}
 
 
+	public static function acceptCandidate(Request $request) {
+		$resp = DB::update('UPDATE demands SET executor_id=? WHERE id=?', [$request['candidate_id'], $request['demand_id']]);
+		if ($resp) {
+			DB::delete('DELETE FROM demand_executor WHERE demand_id=?', [$request['demand_id']]);
+			return json_encode(array('msg' => 'Sua demanda agora está em execução', 'success' => true));
+		}
+		return json_encode(array('msg' => 'Falha no engano', 'success' => false));
+	}
+
+	public static function deleteCandidate(Request $request) {
+		$resp = DB::delete('DELETE FROM demand_executor WHERE demand_id=? AND executor_id=?', [$request['demand_id'], $request['candidate_id']]);
+		if ($resp) {
+			return json_encode(array('msg' => 'Candidato removido.', 'success' => true));
+		}
+		return json_encode(array('msg' => 'Error ao remover candidato', 'success' => false));
+	}
+
+
 }
