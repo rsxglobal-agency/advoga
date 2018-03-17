@@ -115,8 +115,6 @@ class DemandaController extends Controller
 
 	public function acceptDemand(Request $request) {
 		$id = Utils::getIdUser($request->header('Authorization'));
-		error_log('LALA: ');
-		error_log($request['demand_id']);
 		$verify = DB::select('SELECT * FROM demand_executor WHERE executor_id=? AND demand_id=?',
 		                     [$id, $request['demand_id']]);
 		if (!empty($verify)) {
