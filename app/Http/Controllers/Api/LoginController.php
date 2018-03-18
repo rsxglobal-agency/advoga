@@ -66,7 +66,8 @@ class LoginController extends Controller
 			$nota_total = $auth->user()->total_stars;
 			$nota = $nota_total / $quantidade_de_notas;
 			
-			return AppResult::result([
+			return json_encode(Array(
+									'success' => true,
 									'id' => $auth->id(),
 									'nome'=> $auth->user()->name,
 									'email'=> $auth->user()->email,
@@ -82,10 +83,13 @@ class LoginController extends Controller
 									'nota' => $nota,
 									'img' => $auth->user()->image,
 									'remember_token' => $newApiToken,
-									]);
+									));
 	
 		} else {
-			return AppResult::error('Email e/ou senha inválido(s)', 10);
+			return json_encode(Array(
+				'success' => false,
+				'msg' => 'Email e/ou Senha incorretos'
+			));
 		}
 	}
 
