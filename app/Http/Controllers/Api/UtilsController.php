@@ -135,7 +135,8 @@ class UtilsController extends Controller
 		$notification = Array(
 			'expToken' => $request['expToken'],
 			'titleNotification' => $request['title'],
-			'msg' => $request['msg']
+			'msg' => $request['msg'],
+			'data' => $request['data'],
 		);
 		if (Utils::sendNotification($notification)) {
 			return json_encode(Array('success' => true));

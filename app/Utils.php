@@ -124,13 +124,17 @@ class Utils
 	}
 
 	public static function sendNotification($arrayInfo=NULL){
+		$data = array("status" => "ok");
+		if ($arrayInfo['data']) {
+			$data = json_decode($arrayInfo['data']);
+		}
 		$msg = array
 		(
 			"to" 	=> 	$arrayInfo['expToken'],
 			"title" => $arrayInfo['titleNotification'],
 			"sound"	=> "default",
 			"body"	=> $arrayInfo['msg'],
-			"data"	=> array("status"=>"ok")
+			"data"	=> $data
 
 		);
 		 
