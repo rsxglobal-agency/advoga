@@ -128,4 +128,18 @@ class UtilsController extends Controller
 			return json_encode(Array('success' => false, 'msg' => 'Não foi possível realizar o cadastro!'));
 		}
 	}
+
+
+	public function sendPushNotification(Request $request) {
+		$id = Utils::getIdUser($request->header('Authorization'));
+		$notification = Array(
+			'expToken' => $request['expToken'],
+			'titleNotification' => $request['title'],
+			'msg' => $request['msg']
+		);
+		if (Utils::sendNotification($notification)) {
+			return json_encode(Array('success' => true));
+		}
+		return json_encode(Array('success' => false));
+	}
 }

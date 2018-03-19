@@ -37,6 +37,7 @@ Route::group(['middleware' => 'auth:api'], function() {
 });
 
 Route::post('/register-user/', 'Api\LoginController@registerUser');
+Route::post('/send-push-notification/', 'Api\UtilsController@sendPushNotification');
 Route::get('/utils-states/', 'Api\UtilsController@getStates');
 Route::get('/utils-cities/', 'Api\UtilsController@getCities');
 Route::get('/utils-atuations/', 'Api\UtilsController@getAtuations');
