@@ -126,10 +126,11 @@ class Utils
 	public static function sendNotification($arrayInfo=NULL){
 		$msg = array
 		(
-			'to' 	=> 	$arrayInfo['expToken'],
-			'title'	=> $arrayInfo['titleNotification'],
-			'sound'	=> "default",
-			'body'	=> $arrayInfo['msg']
+			"to" 	=> 	$arrayInfo['expToken'],
+			"title" => $arrayInfo['titleNotification'],
+			"sound"	=> "default",
+			"body"	=> $arrayInfo['msg'],
+			"data"	=> array("status"=>"ok")
 
 		);
 		 
