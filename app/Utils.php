@@ -123,9 +123,9 @@ class Utils
 		return json_decode($response);
 	}
 
-	public static function sendNotification($arrayInfo=NULL){
+	public static function sendNotification($data=NULL, $arrayInfo=NULL){
 		$data = array("status" => "ok");
-		if ($arrayInfo['data']) {
+		if (!empty($arrayInfo['data'])) {
 			$data = json_decode($arrayInfo['data']);
 		}
 		$msg = array
