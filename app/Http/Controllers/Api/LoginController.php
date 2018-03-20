@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App;
 use DB;
 use Auth;
+use Mail;
 use App\State;
 use App\City;
 use App\User;
@@ -24,7 +25,6 @@ class LoginController extends Controller
 {
 	public function loginUser(Request $request) {
 		$auth = Auth::guard('web');
-
 
 		if ($auth->attempt(['email' => strtolower($request['email']), 'password' => $request['password']  ]))
 		{
@@ -123,6 +123,58 @@ class LoginController extends Controller
 			return json_encode(Array('success' => true, 'msg' => 'Conta cadastrada com sucesso!'));
 		} else {
 			return json_encode(Array('success' => false, 'msg' => 'Não foi possível realizar o cadastro!'));
+		}
+	}
+
+	public function passwordForgotten(Request $request) {
+		$info = ((array)DB::select('SELECT id,email FROM users WHERE email=?', [$request['email']]));
+		if (!empty($info) && !empty($info[0])) {
+			$info = $info[0];
+			$code    = str_random(4);
+			
+			Mail::raw('Código para resetar sua senha: ' . $code, function($message) use ($info) {
+			   $message->to($info->email, 'Email')->subject
+			      ('Recuperação de senha');
+			   $message->from('advogaappteste@gmail.com','AdvogaApp');
+			});
+
+			if (!count(Mail::failures())) {
+				DB::delete('DELETE FROM password_resets WHERE email=?', [$info->email]);
+				$check = DB::insert('INSERT INTO password_resets (email, token, created_at) VALUES (?, ?, ?)', [$info->email, $code, date('Y-m-d H:i', time())]);
+				if ($check) {
+					return json_encode(array('success' => true, 'msg' => 'O código foi enviado para o seu email'));
+				} else {
+					return json_encode(array('success' => false, 'msg' => 'Não foi possível gerar o seu código'));
+				}
+			} else {
+				return json_encode(array('success' => false, 'msg' => 'Não foi possível enviar o email para ' . $info->email));
+			}
+		} else {
+			return json_encode(array('success' => false, 'msg' => 'Email não cadastrado'));
+		}
+	}
+
+	public function changePasswordForgotten(Request $request) {
+		$code = $request['code'];
+		$info = ((array)DB::select('SELECT pr.email as email,
+								           pr.token as token,
+								           pr.created_at as created_at,
+								           u.id     as id
+		                                 FROM password_resets as pr
+		                                 	JOIN users as u on u.email = pr.email
+		                                 WHERE token=?', [$code]));
+		if (!empty($info) && !empty($info[0])) {
+			$info = $info[0];
+			$newPass = Hash::make($request['new_password']);
+			$updateCheck = DB::update('UPDATE users SET password=? WHERE id=?', [$newPass, $info->id]);
+			if ($updateCheck) {
+				DB::delete('DELETE FROM password_resets WHERE email=?', [$info->email]);
+				return json_encode(Array('success' => true, 'msg' => 'Sua senha foi atualizada'));
+			} else {
+				return json_encode(Array('success' => false, 'msg' => 'Não foi possível atualizar sua senha'));
+			}
+		} else {
+			return json_encode(Array('success' => false, 'msg' => 'Código incorreto ou expirado'));
 		}
 	}
 
