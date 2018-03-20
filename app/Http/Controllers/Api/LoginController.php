@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App;
 use DB;
 use Auth;
+use Mail;
 use App\State;
 use App\City;
 use App\User;
@@ -123,6 +124,49 @@ class LoginController extends Controller
 			return json_encode(Array('success' => true, 'msg' => 'Conta cadastrada com sucesso!'));
 		} else {
 			return json_encode(Array('success' => false, 'msg' => 'Não foi possível realizar o cadastro!'));
+		}
+	}
+
+	public function passwordForgotten(Request $request) {
+		$info = ((array)DB::select('SELECT id,email FROM users WHERE email=?', [$request['email']]))[0];
+		if (!empty($info)) {
+			$code    = str_random(4);
+			
+			$res = Mail::raw('TESTE', function($message) use ($info) {
+			   $message->to($info->email, 'Email')->subject
+			      ('TESTE');
+			   $message->from('envio@advogaapp.com.br','AdvogaApp');
+			});
+
+			if ($res) {
+				$check = 1;//DB::insert('INSERT INTO forgotten_password_codes (user_id, code) VALUES (?, ?)', [$info->id, $code]);
+				if ($check) {
+					return json_encode(array('success' => true, 'msg' => 'O código foi enviado para o seu email'));
+				} else {
+					return json_encode(array('success' => false, 'msg' => 'Não foi possível gerar o seu código'));
+				}
+			} else {
+				return json_encode(array('success' => false, 'msg' => 'Não foi possível enviar o email para ' . $info->email));
+			}
+		} else {
+			return json_encode(array('success' => false, 'msg' => 'Email não cadastrado'));
+		}
+	}
+
+	public function changePasswordForgotten(Request $request) {
+		$code = $request['code'];
+		$checkCode = DB::select('SELECT user_id,code FROM forgotten_password_codes WHERE code=?', [$code]);
+		if (!empty($checkCode)) {
+			$newPass = Hash::make($request['new_password']);
+			$updateCheck = DB::update('UPDATE users SET password=? WHERE id=?', [$newPass, $checkCode['user_id']]);
+
+			if ($updateCheck) {
+				return json_encode(Array('success' => true, 'msg' => 'Sua senha foi atualizada'));
+			} else {
+				return json_encode(Array('success' => false, 'msg' => 'Não foi possível atualizar sua senha'));
+			}
+		} else {
+			return json_encode(Array('success' => false, 'msg' => 'Código incorreto ou expirado'));
 		}
 	}
 
