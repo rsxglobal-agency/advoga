@@ -29,7 +29,7 @@ return [
     |
     */
 
-    'host' => env('MAIL_HOST', 'smtp.advogaapp.com.br'),
+    'host' => env('MAIL_HOST', 'smtp.gmail.com'),
 
     /*
     |--------------------------------------------------------------------------
@@ -56,8 +56,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'envio@advogaapp.com.br'),
-        'name' => env('MAIL_FROM_NAME', 'Advoga App'),
+        'address' => env('MAIL_FROM_ADDRESS', 'advogaappteste@gmail.com'),
+        'name' => env('MAIL_FROM_NAME', 'AdvogaApp'),
     ],
 
     /*
@@ -84,9 +84,9 @@ return [
     |
     */
 
-    'username' => 'envio@advogaapp.com.br',//env('MAIL_USERNAME'),
+    'username' => 'advogaappteste@gmail.com',//env('MAIL_USERNAME'),
 
-    'password' => 'advoga950843',//env('MAIL_PASSWORD'),
+    'password' => 'ijpvwdcfwgpopnzp',//env('MAIL_PASSWORD'),
 
     /*
     |--------------------------------------------------------------------------
