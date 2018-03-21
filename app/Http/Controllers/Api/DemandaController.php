@@ -17,7 +17,7 @@ use App\City;
 class DemandaController extends Controller
 {
 
-	private function getCoords($city){
+	private function getCoords($city) {
 		$url_googleapis = 'https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyBm75P1yg7VJCl9bDjM90LTKSItwTtVtH0&address='.implode('+',explode(' ',$city));
 		$geocodeObject = json_decode(file_get_contents($url_googleapis), true);
 		if(isset($geocodeObject['results'][0])){

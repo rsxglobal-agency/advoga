@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
 Route::group(['middleware' => 'auth:api'], function() {
 	Route::get('/user-info', 'Api\UtilsController@userInfo');
 	Route::get('/feed-demandas/', 'Api\DemandaController@GetDemands');
-	Route::post('/edit-profile', 'Api\UtilsController@editProfile');
+	Route::post('/edit-profile/', 'Api\UtilsController@editProfile');
 	Route::post('/accept-demand/', 'Api\DemandaController@acceptDemand');
 	Route::post('/send-demand/', 'Api\DemandaController@sendDemand');
 	Route::post('/edit-demand/', 'Api\DemandaController@editDemand');

@@ -17,6 +17,7 @@ use App\Atuation;
 use App\Service;
 use App\Formation;
 use App\Titulation;
+use Intervention\Image\ImageManagerStatic as Image;
 
 
 use App\AppResult;
@@ -114,11 +115,12 @@ class LoginController extends Controller
 		$user->active = 1;
 		$resp = $user->save();
 		if ($resp) {
-			if ($request['image'] != '') {
-				error_log('IMAGE: ');
-				error_log($request['image']);
-				Storage::disk('local')->put('uploads/avatars/foto_avatar_' . strval($user->id) . '.jpg', base64_decode($request['image']));
-				DB::update('UPDATE users SET image=? WHERE id=?', ['foto_avatar_' . strval($user->id) . '.jpg', $user->id]);
+			if (!empty($request['image64'])) {
+				$filename = 'foto_avatar_' . $user->id . '.jpg';
+				$img = Image::make(base64_decode($request['image64']));
+				$img->resize(256, 256);
+				$img->save(public_path('uploads/avatars/' . $filename));
+				DB::update('UPDATE users SET image=? WHERE id=?', [$filename, $user->id]);
 			}
 			return json_encode(Array('success' => true, 'msg' => 'Conta cadastrada com sucesso!'));
 		} else {
