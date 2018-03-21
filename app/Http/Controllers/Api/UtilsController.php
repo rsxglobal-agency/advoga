@@ -17,6 +17,7 @@ use App\Service;
 use App\Formation;
 use App\Titulation;
 use App\Demand;
+use Intervention\Image\ImageManagerStatic as Image;
 
 
 use App\AppResult;
@@ -101,31 +102,28 @@ class UtilsController extends Controller
 	}
 
 	public function editProfile(Request $request) {
+		$id = Utils::getIdUser($request->header('Authorization'));
 		$user = new User();
-
 		$user->name = $request['name'];
 		$user->email = $request['email'];
 		$user->state_id = $request['state_id'];
 		$user->city_id = $request['city_id'];
 		$user->titulation_id = $request['titulation_id'];
 		$user->formation_id = $request['formation_id'];
-		$user->image = '';
-		$user->description = '';
-		$user->social = '';
-		$user->api_token = '';
 		$user->active = 1;
-
-		$resp = $user->update();
+		$resp = $user->where('id', '=', $id)->update($user->toArray());
 		if ($resp) {
-			if ($user->image != '') {
-				Image::make($user->image)->save(public_path('uploads/avatars/foto_avatar_' . string($user->id) . '.jpeg'));
-
-				$user->image = 'foto_avatar_' . string($user->id) . '.jpeg';
-				$user->update();
+			if (!empty($request['image64'])) {
+				error_log('PASSANDO');
+				$filename = 'foto_avatar_' . $id . '.jpg';
+				$img = Image::make(base64_decode($request['image64']));
+				$img->resize(256, 256);
+				$img->save(public_path('uploads/avatars/' . $filename));
+				DB::update('UPDATE users SET image=? WHERE id=?', [$filename, $id]);
 			}
-			return json_encode(Array('success' => true, 'msg' => 'Conta cadastrada com sucesso!'));
+			return json_encode(Array('success' => true, 'msg' => 'Perfil editado com sucesso'));
 		} else {
-			return json_encode(Array('success' => false, 'msg' => 'Não foi possível realizar o cadastro!'));
+			return json_encode(Array('success' => false, 'msg' => 'Não foi possível editar o seu perfil'));
 		}
 	}
 
