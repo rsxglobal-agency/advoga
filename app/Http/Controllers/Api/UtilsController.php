@@ -114,7 +114,6 @@ class UtilsController extends Controller
 		$resp = $user->where('id', '=', $id)->update($user->toArray());
 		if ($resp) {
 			if (!empty($request['image64'])) {
-				error_log('PASSANDO');
 				$filename = 'foto_avatar_' . $id . '.jpg';
 				$img = Image::make(base64_decode($request['image64']));
 				$img->resize(256, 256);
