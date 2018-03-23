@@ -127,6 +127,9 @@ class Utils
 		$data = array("status" => "ok");
 		if (!empty($arrayInfo['data'])) {
 			$data = json_decode($arrayInfo['data']);
+		} else {
+			$data['title'] = $arrayInfo['titleNotification'];
+			$data['body'] = $arrayInfo['msg'];
 		}
 		$msg = array
 		(
