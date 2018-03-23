@@ -123,14 +123,14 @@ class Utils
 		return json_decode($response);
 	}
 
-	public static function sendNotification($data=NULL, $arrayInfo=NULL){
+	public static function sendNotification($arrayInfo=NULL){
 		$data = array("status" => "ok");
 		if (!empty($arrayInfo['data'])) {
 			$data = json_decode($arrayInfo['data']);
 		}
 		$msg = array
 		(
-			"to" 	=> 	$arrayInfo['expToken'],
+			"to" 	=> 	string() $arrayInfo['expToken'],
 			"title" => $arrayInfo['titleNotification'],
 			"sound"	=> "default",
 			"body"	=> $arrayInfo['msg'],
@@ -151,7 +151,8 @@ class Utils
 		curl_setopt( $ch,CURLOPT_POSTFIELDS, json_encode( $msg ) );
 		$result = curl_exec($ch );
 		curl_close( $ch );
-
+		print_r($result);
+		die();
 		return $result;
 	}
 
