@@ -51,7 +51,6 @@ $newPost->getUri(); // => https://my-project.firebaseio.com/blog/posts/-KVr5eu8g
 
 $newPost->getChild('title')->set('Changed post title');
 $newPost->getValue(); // Fetches the data from the realtime database
-$newPost->remove();
 
 class UtilsController extends Controller
 {
