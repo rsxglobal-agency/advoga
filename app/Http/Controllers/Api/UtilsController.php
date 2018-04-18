@@ -20,7 +20,7 @@ use App\Demand;
 use Intervention\Image\ImageManagerStatic as Image;
 use App\AppResult;
 
-require __DIR__.'/vendor/autoload.php';
+require __DIR__.'../../../../vendor/autoload.php';
 
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\ServiceAccount;
