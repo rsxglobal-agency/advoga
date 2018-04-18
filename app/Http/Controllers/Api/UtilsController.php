@@ -20,14 +20,14 @@ use App\Demand;
 use Intervention\Image\ImageManagerStatic as Image;
 use App\AppResult;
 
-require __DIR__.'../../../../vendor/autoload.php';
+require __DIR__.'/../../../../vendor/autoload.php';
 
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\ServiceAccount;
 
 // This assumes that you have placed the Firebase credentials in the same directory
 // as this PHP file.
-$serviceAccount = ServiceAccount::fromJsonFile(__DIR__.'../../../../advogaapp-firebase.json');
+$serviceAccount = ServiceAccount::fromJsonFile(__DIR__.'/../../../../advogaapp-firebase.json');
 
 $firebase = (new Factory)
     ->withServiceAccount($serviceAccount)
