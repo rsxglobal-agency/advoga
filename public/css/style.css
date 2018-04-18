@@ -524,6 +524,7 @@ table tr th { color: #688a7e;}
 .nav-collapse.collapse {
 
     display: inline;
+    width: 700;
 
 }
 
