@@ -79,7 +79,7 @@
     @endif
 
     @if($_SERVER['REQUEST_URI'] == "/busca")
-    <li class="sub-menu active">
+    <li class="fas fa-search">
     <a class="" href="busca">
     <i class="fas fa-search"></i>
     <span>Buscar Profissionais</span>
