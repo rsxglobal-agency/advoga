@@ -86,7 +86,7 @@
     </a>
     </li>
     @else
-    <li>
+    <li class="sub-menu">
     <a class="" href="busca">
     <i class="fa fa-search" aria-hidden="true"></i>
     <span>Buscar Profissionais</span>
