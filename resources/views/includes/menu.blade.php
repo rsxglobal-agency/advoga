@@ -81,14 +81,14 @@
     @if($_SERVER['REQUEST_URI'] == "/busca")
     <li class="sub-menu active">
     <a class="" href="busca">
-    <i class="icon_archive"></i>
+    <i class="fas fa-search"></i>
     <span>Buscar Profissionais</span>
     </a>
     </li>
     @else
     <li>
     <a class="" href="busca">
-    <i class="icon_archive"></i>
+    <i class="fas fa-search"></i>
     <span>Buscar Profissionais</span>
     </a>
     </li>
