@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "advogaapp",
+  "private_key_id": "52af0dc1242258e14db42a551e625d5abdae1bb9",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQChCGqFy1yw61Dg\nKIBykboT1Az5ARKxW9XvaW6FErVxkaHuLSG9PdR9lSxlNuB5//OD1wqNL7U0i7ln\n+pRaG6VZtGLi5to29/IHCAD+C3r96+6Q8P+DwaglZ4i8mOdZUJ8+B53hPGeNkbfS\nbhs5CpUEe/5hZa1cTL6NBtpTtwTfYO9Lgoo0ki3Z8Q60h//kyCgrvZ/44UyFFOAd\nMjI352gZWL91EBWqUzYVREU75NTstP5TjmQ3rryNM4U6QK0GJg6J7y3lLT/+WdX4\niCV0eW7dNqezmpcIUbpztsrQEC7xQmSFk9rr3aXU1uGGJsPSalbxZkA7mayl7hQB\nPJ8yxrWBAgMBAAECggEAC/fgVDsAk8Txg695mHTx6P5bdnhDcjtv7jVzpDVMl05q\nbsAboAEulU+BzLCkRLz8ACJP451rm3uqVyrdssgXj9AN120D7o5FW+DBk3Vj+eel\nQ/rSwBv5Ch/59CvDFLV0GGagL84kU3ZvPJcNXpMa7zSN+/bUHdDgYAKQiySbmpnE\njUEe8L36/pT3owZXKxomdkcb7bnTkdT2UXF4S7zgR9MkpgaCg5DZa+IKozjRN3ae\nuaWZfs3SyfXfpcdmzzH3tbaF2ZD7LAwCVGbcMLumd1U53ISQK+TsdlH/hBA6Tk6h\nrqgiDMsDLMEnMrgXvXMW4jp5ed4rMu+AS7qX+AZ4SQKBgQDih8DfsFBRrh9GyX+e\nY6M6nE0MHlvoeRvYuW4bPa9uWFSrQxkM3BL4sms3cgYnnhcN2tyadMd5vI8VlAm0\nsOe3VSWxlxgDQJJvEOLMGA8EkGfqMXcs0+Z7KuftbsaTEazdPP7tpGdnsQNka1o2\nDqAuqgiX9xbciyFEQkLQO+RRJQKBgQC1+178yRO4LLKKl6astXdchbIAR7bA1oCa\nOTbPjJ4zDsC6QFKLSzbS6NHKgnI8bvCV0lUIpJrGnWqQeyiZgUW4o4XSq5MVQGAY\n8usWndUJIWKBQW9Z0Ve0CZDPurOkaYQz1TxopRKcyoohG+wpH45CUC09qZthUPWD\nmqESY8UKLQKBgQCG1QaYHfmwpFM5bvXm8KdXW3EApZFO7ccFWFmRHUYuB6VdyrI+\nVT91h70JY3UGX7KZLIvh42BXtUP1NAgS5LkHBkdJTQWd6fE+6m4TzL4jmVBAtPCa\nXgXxibhCOo03PG4HwSZ7jD+AGHxMaRlo04vEOrCiww94ddd3KXlbOErNgQKBgQCu\nDSqPSV3z48Qrq9m9C56KvlA91lkjXMUJPDmBDnPsT2rjeEu6cAiSdhzYvCS4Sj8O\nfGnZ510lIz/dyf1NvAdMDhIbKQB27eg7VHKmYfR0VBrblxMB66gfSJrZIy9Xy5em\n34Z0a5U+orSz7/nSZxzvrbFnbYVv8TewVD9D0GqPTQKBgC03KH1wCIoIynV9wwFM\n9ROdmu7nxKZCXRD80ppY6yRJh5s1cBORgr4fXmqOVQehwx5AgsOBL+sHmTLrVegH\nZEaj0NgHFhTiGf3xeOUYA/t0nzfNbur9/mczegBKlTur/LCWdY4/xu9YtoRf6J5+\nbBwE6aRBos9bvdgXz7fSvUGj\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-4ipty@advogaapp.iam.gserviceaccount.com",
+  "client_id": "112904993383118282984",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-4ipty%40advogaapp.iam.gserviceaccount.com"
+}
