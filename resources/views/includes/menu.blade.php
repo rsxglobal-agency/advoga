@@ -32,7 +32,6 @@
     </a>
     <ul class="sub">
     <li><a class="" href="lancar-demanda">Lançar Demandas</a></li>
-    <li><a class="" href="busca">Buscar Profissionais</a></li>
     <li><a class="" href="minhas-demandas">Minhas Demandas</a></li>
     <li><a class="" href="demandas-em-execucao">Demandas Em Execução</a></li>
     </ul>
@@ -76,6 +75,22 @@
     <li><a class="" href="candidaturas">Candidaturas</a></li>
     <li><a class="" href="emexecucao">Em Execução</a></li>
     </ul>
+    </li>
+    @endif
+
+    @if($_SERVER['REQUEST_URI'] == "/busca")
+    <li class="sub-menu active">
+    <a class="" href="busca">
+    <i class="icon_archive"></i>
+    <span>Buscar Profissionais</span>
+    </a>
+    </li>
+    @else
+    <li>
+    <a class="" href="busca">
+    <i class="icon_archive"></i>
+    <span>Buscar Profissionais</span>
+    </a>
     </li>
     @endif
 
