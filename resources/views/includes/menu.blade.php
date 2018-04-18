@@ -23,7 +23,7 @@
     </li>
     @endif
 
-    @if(($_SERVER['REQUEST_URI'] == "/lancar-demanda") || ($_SERVER['REQUEST_URI'] == "/busca") )
+    @if(($_SERVER['REQUEST_URI'] == "/lancar-demanda"))
     <li class="sub-menu active">
     <a href="javascript:;" class="">
     <i class="icon_document_alt"></i>
