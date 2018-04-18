@@ -33,6 +33,8 @@
     <ul class="sub">
     <li><a class="" href="lancar-demanda">Lançar Demandas</a></li>
     <li><a class="" href="busca">Buscar Profissionais</a></li>
+    <li><a class="" href="minhas-demandas">Minhas Demandas</a></li>
+    <li><a class="" href="demandas-em-execucao">Demandas Em Execução</a></li>
     </ul>
     </li>
     @else
@@ -45,6 +47,8 @@
     <ul class="sub">
     <li><a class="" href="lancar-demanda">Lançar Demandas</a></li>
     <li><a class="" href="busca">Buscar Profissionais</a></li>
+    <li><a class="" href="minhas-demandas">Minhas Demandas</a></li>
+    <li><a class="" href="demandas-em-execucao">Demandas Em Execução</a></li>
     </ul>
     </li>
     @endif
