@@ -52,38 +52,12 @@
     </ul>
     </li>
     @endif
-    
-   @if(($_SERVER['REQUEST_URI'] == "/minhas-demandas") || ($_SERVER['REQUEST_URI'] == "/demandas-em-execucao") )
-    <li class="sub-menu active">
-    <a href="javascript:;" class="">
-    <i class="icon_balance"></i>
-    <span>Demandas</span>
-    <span class="menu-arrow arrow_carrot-right"></span>
-    </a>
-    <ul class="sub">
-    <li><a class="" href="minhas-demandas">Lançadas</a></li>
-    <li><a class="" href="demandas-em-execucao">Em Execução</a></li>
-    </ul>
-    </li>
-    @else
-    <li class="sub-menu">
-    <a href="javascript:;" class="">
-    <i class="icon_balance"></i>
-    <span>Demandas</span>
-    <span class="menu-arrow arrow_carrot-right"></span>
-    </a>
-    <ul class="sub">
-    <li><a class="" href="minhas-demandas">Lançadas</a></li>
-    <li><a class="" href="demandas-em-execucao">Em Execução</a></li>
-    </ul>
-    </li>
-    @endif
 
     @if(($_SERVER['REQUEST_URI'] == "/candidaturas") || ($_SERVER['REQUEST_URI'] == "/emexecucao") )
     <li class="sub-menu active">
     <a href="javascript:;" class="">
     <i class="icon_toolbox"></i>
-    <span>Diligências</span>
+    <span>Serviços Prestados</span>
     <span class="menu-arrow arrow_carrot-right"></span>
     </a>
     <ul class="sub">
@@ -95,7 +69,7 @@
     <li class="sub-menu">
     <a href="javascript:;" class="">
     <i class="icon_toolbox"></i>
-    <span>Diligências</span>
+    <span>Serviços Prestados</span>
     <span class="menu-arrow arrow_carrot-right"></span>
     </a>
     <ul class="sub">
