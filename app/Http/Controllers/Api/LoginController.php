@@ -18,9 +18,26 @@ use App\Service;
 use App\Formation;
 use App\Titulation;
 use Intervention\Image\ImageManagerStatic as Image;
-
-
 use App\AppResult;
+require __DIR__.'/../../../../vendor/autoload.php';
+
+use Kreait\Firebase\Factory;
+use Kreait\Firebase\ServiceAccount;
+
+// This assumes that you have placed the Firebase credentials in the same directory
+// as this PHP file.
+$serviceAccount = ServiceAccount::fromJsonFile(__DIR__.'/../../../../advogaapp-firebase.json');
+
+$firebase = (new Factory)
+    ->withServiceAccount($serviceAccount)
+    // The following line is optional if the project id in your credentials file
+    // is identical to the subdomain of your Firebase project. If you need it,
+    // make sure to replace the URL with the URL of your project.
+    ->withDatabaseUri('https://advogaapp.firebaseio.com/')
+    ->create();
+
+$database = $firebase->getDatabase();
+$storage = $firebase->getStorage();
 
 class LoginController extends Controller
 {
@@ -66,6 +83,15 @@ class LoginController extends Controller
 			$quantidade_de_notas = $auth->user()->total_rating;
 			$nota_total = $auth->user()->total_stars;
 			$nota = $nota_total / $quantidade_de_notas;
+			$img = $auth->user()->image;
+			if (strpos($img, 'advogaapp.appspot.com') === false) {
+				$filename = 'foto_avatar_' . $user->id . '.jpg';
+				$fs = $storage->getFilesystem();
+				$fs->put('avatars/' . $filename, file_get_contents('public/uploads/avatars/' . $filename));
+				sleep(2);
+				$user->image = $storage->getBucket()->object('avatars/' . $filename)->signedUrl(strtotime('01/01/2050'));
+				$user->save();
+			}
 			
 			return json_encode(Array(
 									'success' => true,
@@ -82,7 +108,7 @@ class LoginController extends Controller
 									'atuacao' => $atuacao,
 									'servicosprestados' => $servicosprestados,
 									'nota' => $nota,
-									'img' => $auth->user()->image,
+									'img' => $img,
 									'remember_token' => $newApiToken,
 									));
 	
@@ -116,11 +142,10 @@ class LoginController extends Controller
 		$resp = $user->save();
 		if ($resp) {
 			if (!empty($request['image64'])) {
-				$filename = 'foto_avatar_' . $user->id . '.jpg';
-				$img = Image::make(base64_decode($request['image64']));
-				$img->resize(256, 256);
-				$img->save(public_path('uploads/avatars/' . $filename));
-				DB::update('UPDATE users SET image=? WHERE id=?', [$filename, $user->id]);
+				$filename = 'foto_avatar_' . $id . '.jpg';
+				$filesystem = $storage->getFilesystem();
+				$filesystem->put('avatars/' . $filename, base64_decode($request['image64']));
+				DB::update('UPDATE users SET image=? WHERE id=?', [$storage->getBucket()->object('avatars/' . $filename)->signedUrl(strtotime('01/01/2050')), $id]);
 			}
 			return json_encode(Array('success' => true, 'msg' => 'Conta cadastrada com sucesso!'));
 		} else {

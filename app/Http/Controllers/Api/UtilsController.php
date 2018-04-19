@@ -38,19 +38,8 @@ $firebase = (new Factory)
     ->create();
 
 $database = $firebase->getDatabase();
+$storage = $firebase->getStorage();
 
-$newPost = $database
-    ->getReference('blog/posts')
-    ->push([
-        'title' => 'Post title',
-        'body' => 'This should probably be longer.'
-    ]);
-
-$newPost->getKey(); // => -KVr5eu8gcTv7_AHb-3-
-$newPost->getUri(); // => https://my-project.firebaseio.com/blog/posts/-KVr5eu8gcTv7_AHb-3-
-
-$newPost->getChild('title')->set('Changed post title');
-$newPost->getValue(); // Fetches the data from the realtime database
 
 class UtilsController extends Controller
 {
@@ -145,10 +134,9 @@ class UtilsController extends Controller
 		if ($resp) {
 			if (!empty($request['image64'])) {
 				$filename = 'foto_avatar_' . $id . '.jpg';
-				$img = Image::make(base64_decode($request['image64']));
-				$img->resize(256, 256);
-				$img->save(public_path('uploads/avatars/' . $filename));
-				DB::update('UPDATE users SET image=? WHERE id=?', [$filename, $id]);
+				$filesystem = $storage->getFilesystem();
+				$filesystem->put('avatars/' . $filename, base64_decode($request['image64']));
+				DB::update('UPDATE users SET image=? WHERE id=?', [$storage->getBucket()->object('avatars/' . $filename)->signedUrl(strtotime('01/01/2050')), $id]);
 			}
 			return json_encode(Array('success' => true, 'msg' => 'Perfil editado com sucesso'));
 		} else {
