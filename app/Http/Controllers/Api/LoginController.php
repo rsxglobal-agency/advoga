@@ -19,25 +19,13 @@ use App\Formation;
 use App\Titulation;
 use Intervention\Image\ImageManagerStatic as Image;
 use App\AppResult;
+
 require __DIR__.'/../../../../vendor/autoload.php';
 
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\ServiceAccount;
 
-// This assumes that you have placed the Firebase credentials in the same directory
-// as this PHP file.
-$serviceAccount = ServiceAccount::fromJsonFile(__DIR__.'/../../../../advogaapp-firebase.json');
 
-$firebase = (new Factory)
-    ->withServiceAccount($serviceAccount)
-    // The following line is optional if the project id in your credentials file
-    // is identical to the subdomain of your Firebase project. If you need it,
-    // make sure to replace the URL with the URL of your project.
-    ->withDatabaseUri('https://advogaapp.firebaseio.com/')
-    ->create();
-
-$database = $firebase->getDatabase();
-$storage = $firebase->getStorage();
 
 class LoginController extends Controller
 {
@@ -85,12 +73,27 @@ class LoginController extends Controller
 			$nota = $nota_total / $quantidade_de_notas;
 			$img = $auth->user()->image;
 			if (strpos($img, 'advogaapp.appspot.com') === false) {
-				$filename = 'foto_avatar_' . $user->id . '.jpg';
-				$fs = $storage->getFilesystem();
-				$fs->put('avatars/' . $filename, file_get_contents('public/uploads/avatars/' . $filename));
-				sleep(2);
-				$user->image = $storage->getBucket()->object('avatars/' . $filename)->signedUrl(strtotime('01/01/2050'));
-				$user->save();
+				try {
+					// This assumes that you have placed the Firebase credentials in the same directory
+					// as this PHP file.
+					$serviceAccount = ServiceAccount::fromJsonFile(__DIR__.'/../../../../advogaapp-firebase.json');
+
+					$firebase = (new Factory)
+						->withServiceAccount($serviceAccount)
+						// The following line is optional if the project id in your credentials file
+						// is identical to the subdomain of your Firebase project. If you need it,
+						// make sure to replace the URL with the URL of your project.
+						->withDatabaseUri('https://advogaapp.firebaseio.com/')
+						->create();
+					$filename = 'foto_avatar_' . $id . '.jpg';
+					$fs = $firebase->getStorage()->getFilesystem();
+					$fs->put('avatars/' . $filename, file_get_contents(public_path('uploads/avatars/' . $filename)));
+					sleep(2);
+					$user->image = $firebase->getStorage()->getBucket()->object('avatars/' . $filename)->signedUrl(strtotime('01/01/2050'));
+					$user->save();
+				} catch (Exception $e) {
+
+				}
 			}
 			
 			return json_encode(Array(
@@ -142,6 +145,19 @@ class LoginController extends Controller
 		$resp = $user->save();
 		if ($resp) {
 			if (!empty($request['image64'])) {
+				// This assumes that you have placed the Firebase credentials in the same directory
+				// as this PHP file.
+				$serviceAccount = ServiceAccount::fromJsonFile(__DIR__.'/../../../../advogaapp-firebase.json');
+
+				$firebase = (new Factory)
+				    ->withServiceAccount($serviceAccount)
+				    // The following line is optional if the project id in your credentials file
+				    // is identical to the subdomain of your Firebase project. If you need it,
+				    // make sure to replace the URL with the URL of your project.
+				    ->withDatabaseUri('https://advogaapp.firebaseio.com/')
+				    ->create();
+
+				$storage = $firebase->getStorage();
 				$filename = 'foto_avatar_' . $id . '.jpg';
 				$filesystem = $storage->getFilesystem();
 				$filesystem->put('avatars/' . $filename, base64_decode($request['image64']));
