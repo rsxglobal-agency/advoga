@@ -32,8 +32,10 @@
             data-src-400="images/logo-400.png"
           class="item-img">
         </div>
+        
         <div class="item"><a href="login">Entrar</a></div>
         <div class="item"> <a href="cadastro">Cadastre-se</a></div>
+        <div class="item"> <a href="blog">Blog</a></div>
         
       </nav>
       </div>
