@@ -24,7 +24,7 @@
 </head>
 
   <body>
-    <div class="container">
+    <div class="container" >
       <nav class="flex-navbar">
 
         <div class="item item-logo">
@@ -32,10 +32,12 @@
             data-src-400="images/logo-400.png"
           class="item-img">
         </div>
-        
-        <div class="item"><a href="login">Entrar</a></div>
-        <div class="item"> <a href="cadastro">Cadastre-se</a></div>
-        <div class="item"> <a href="blog">Blog</a></div>
+
+        <div style="display:table; table-layout:fixed; border-spacing: 10px; margin-right: 16px">
+          <div style="display: table-cell; margin: 8px"><a href="login" style="font-size: 18px; color: white;text-decoration:none">Entrar</a></div>
+          <div style="display: table-cell; margin: 8px"><a href="cadastro" style="font-size: 18px;color: white;text-decoration:none">Cadastre-se</a></div>
+          <div style="display: table-cell; margin: 8px"><a href="blog" style="font-size: 18px;color: white;text-decoration:none">Blog</a></div>
+        </div>
         
       </nav>
       </div>
