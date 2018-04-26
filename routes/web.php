@@ -15,6 +15,8 @@ Route::get('/', function () {
     return view('index');
 });
 
+Route::get('/politica', function() { return view('politica'); });
+
 
 /*
 Route::get('/cadastro', function (){
