@@ -36,6 +36,8 @@ Route::group(['middleware' => 'auth:api'], function() {
 	Route::post('/cancel-application/', 'Api\ApplicationController@cancelApplication');
 });
 
+Route::get('/login', 'Api\LoginController@loginUser');
+
 Route::post('/register-user/', 'Api\LoginController@registerUser');
 Route::post('/password-forgotten/', 'Api\LoginController@passwordForgotten');
 Route::post('/change-password-forgotten/', 'Api\LoginController@changePasswordForgotten');
@@ -47,11 +49,7 @@ Route::get('/utils-services/', 'Api\UtilsController@getServices');
 Route::get('/utils-formations/', 'Api\UtilsController@getFormations');
 Route::get('/utils-titulations/', 'Api\UtilsController@getTitulations');
 
-Route::get('/login', function () {
-    return redirect('api');
-});
 
-Route::get('/login', 'Api\LoginController@loginUser')->middleware('throttle:20,1');
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
