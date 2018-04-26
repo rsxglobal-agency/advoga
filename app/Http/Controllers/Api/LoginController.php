@@ -72,7 +72,8 @@ class LoginController extends Controller
 			$nota_total = $auth->user()->total_stars;
 			$nota = $nota_total / $quantidade_de_notas;
 			$img = $auth->user()->image;
-			if (strpos($img, 'advogaapp.appspot.com') === false) {
+			$filename = 'foto_avatar_' . $id . '.jpg';
+			if (strpos($img, 'advogaapp.appspot.com') === false && file_exists(public_path('uploads/avatars/' . $filename))) {
 				try {
 					// This assumes that you have placed the Firebase credentials in the same directory
 					// as this PHP file.
@@ -85,7 +86,6 @@ class LoginController extends Controller
 						// make sure to replace the URL with the URL of your project.
 						->withDatabaseUri('https://advogaapp.firebaseio.com/')
 						->create();
-					$filename = 'foto_avatar_' . $id . '.jpg';
 					$fs = $firebase->getStorage()->getFilesystem();
 					$fs->put('avatars/' . $filename, file_get_contents(public_path('uploads/avatars/' . $filename)));
 					sleep(2);
