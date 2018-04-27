@@ -1,20 +1,43 @@
-	<!DOCTYPE>
-	<html>
-		
-	<head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Creative - Bootstrap 3 Responsive Admin Template">
+    <meta name="author" content="GeeksLabs">
+    <meta name="keyword" content="Creative, Dashboard, Admin, Template, Theme, Bootstrap, Responsive, Retina, Minimal">
+    <link rel="shortcut icon" href="img/img/advogaicon.ico">
 
-		<title>Advoga</title>
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	    <meta name="HandheldFriendly" content="true">
-	    <meta charset="UTF-8">	
+    <title>Advoga - Aproximando comarcas, unindo profissionais, agilizando o Direitos</title>
 
-	     <link rel="stylesheet" href="css/style_adv_termos.css"/>
-	     <link rel="shortcut icon"  href="favicon.ico"/>
-	<meta name="theme-color" content="#ffffff">
-	</head>
 
-	<body>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-theme.css" rel="stylesheet">
+    <link href="css/elegant-icons-style.css" rel="stylesheet" />
+    <link href="css/font-awesome.css" rel="stylesheet" />
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/style-responsive.css" rel="stylesheet" />
+
+</head>
+  <body>
+
+	<div style="background-color: #133b3f; height: 56px" >
+		<nav>
+
+			<div>
+			  <img 
+			   src="images/logo.png" 
+			   data-src-400="images/logo-400.png"
+			   style="    display: block;
+    margin-left: auto;
+    margin-right: auto;">
+			</div>
+
+		</nav>
+	</div>
+
+	</div>
+		<div style="padding: 36px">
 		
 				<div class="container">
 		
@@ -455,5 +478,6 @@
 						(f) Com a autorização do usuário: em demais casos, havendo a necessidade de compartilhamento das informações, enviaremos a você uma notificação solicitando sua aprovação.</p>
 					</div>
 				</div>
-			</div>
-	</body>
+	</div>
+  </body>
+</html>

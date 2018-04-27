@@ -16,6 +16,7 @@ Route::get('/', function () {
 });
 
 Route::get('/politica', function() { return view('politica'); });
+Route::get('/termos', function() { return view('termos.index'); });
 
 
 /*
