@@ -51,7 +51,8 @@ class ChatController extends Controller
       
     
       
-      return view("chat.index",['usuariosChat' => $usuariosChat]);
+      //return view("chat.index",['usuariosChat' => $usuariosChat]);
+            return view("chat.index",$usuariosChat);
     }
 
   
