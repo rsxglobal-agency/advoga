@@ -30,45 +30,26 @@ class ChatController extends Controller
     public function index()
     {
       
-      
-      $conversations  = Conversation::where(function($query){
-                            $query->where('from_user',Auth()->user()->id);    
-                            $query->orWhere('to_user',Auth()->user()->id);  
-                        })->orderby("created_at", "DESC")->get();
-      
-      foreach($conversations as $conversation){
-             
-              
-              if ($conversation->from_user==Auth()->user()->id){
-                 $other_user_id = $conversation->to_user;
-              }
-              
-              if ($conversation->to_user==Auth()->user()->id){
-                 $other_user_id = $conversation->from_user;
-              }
-              
-             $conversation['other'] = User::where('id',$other_user_id)->select('id','name','image')->get()->first();
-             
-      
-             /*
-               $from_values = $conversation->from_user()->get()->pluck('name','image');
-               $to_values   = $conversation->to_user()->get()->pluck('name','image');  
+      $serviceAccount = ServiceAccount::fromJsonFile(__DIR__.'/../../../../advogaapp-firebase.json');
 
-               $conversation->from_user()->get()->first();
-                  foreach ($to_values as $image => $name){
-                    $conversation['to'] = array('image'=>$image,'name'=>$name);  
-               }
-                
-               foreach ($from_values as $image => $name){
-                    $conversation['from'] = array('image'=>$image,'name'=>$name);  
-               }
-            */ 
-      }
+          $firebase = (new Factory)
+            ->withServiceAccount($serviceAccount)
+            // The following line is optional if the project id in your credentials file
+            // is identical to the subdomain of your Firebase project. If you need it,
+            // make sure to replace the URL with the URL of your project.
+            ->withDatabaseUri('https://advogaapp.firebaseio.com/')
+            ->create();
+
+            $database = $firebase->getDatabase();
+
+            $selectChat = $database
+                ->getReference('chat');
+
       
-      $data['conversations'] = $conversations;
+      
     
       
-      return view("chat.index",$data);
+      return view("chat.index",$selectChat);
     }
 
   
