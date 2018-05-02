@@ -48,7 +48,9 @@ class ChatController extends Controller
 
       $selectChat = $database->getReference('chat/messages/'.$usuariosChat['messages_key']);
       $Chat = $selectChat->getValue();
-      echo count($Chat);
+      foreach ($Chat as $conversa) {
+        echo $conversa['text'];
+      }
       die;
     
       
