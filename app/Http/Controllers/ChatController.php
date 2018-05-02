@@ -46,8 +46,8 @@ class ChatController extends Controller
             ->orderByChild('6669')
             ->getSnapshot();
 
-            $usuariosChat = $selectUsuarios->getValue();
-            print_r($usuariosChat);
+            // $usuariosChat = $selectUsuarios->getValue();
+            print_r($selectUsuarios);
             die;
 
       
@@ -55,7 +55,7 @@ class ChatController extends Controller
     
       
       //return view("chat.index",['usuariosChat' => $usuariosChat]);
-            return view("chat.index",$usuariosChat);
+            return view("chat.index",$selectUsuarios);
     }
 
   
