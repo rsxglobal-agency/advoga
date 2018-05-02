@@ -45,7 +45,7 @@ class ChatController extends Controller
             $selectUsuarios = $database->getReference('chat/users');
 
             $usuariosChat = $selectUsuarios->getValue();
-            print_r($selectUsuarios);
+            print_r($usuariosChat);
             die;
 
       
@@ -53,7 +53,7 @@ class ChatController extends Controller
     
       
       //return view("chat.index",['usuariosChat' => $usuariosChat]);
-            return view("chat.index",$selectUsuarios);
+            return view("chat.index",$usuariosChat);
     }
 
   
