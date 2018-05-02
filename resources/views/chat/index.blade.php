@@ -14,17 +14,27 @@
                  <!--teste-->
                  <div class="flex-content" id="flex-content">
                    <div class="chat-item" id="chat-item">              
-                     @foreach ($usuariosChat as $chat)
-                     <div class="flex-item" id="flex-item">
-                       <div class="circular--portrait" id="circular--portrait-chat"> 
-                      
-                       </div>                    
+                     @forelse ($Chat as $conv)
+                     <div class="flex-item" id="flex-item">                  
                        <div class="flex-textos" id="flex-textos">
-                          <p class="nome" id="nome">{{$chat}}</p>
+                          <p class="nome" id="nome">{{$conv['user_id']}}</p>
+                          <p class="demanda" id="demanda">{{$conv['text']}</p>                     
+                          <a href="#" 
+                            data-page    = "chat-page" 
+                            data-demand  = '{"id":""}'
+                            data-to      = '{"id":"{{$conv->other->id}}","name":"{{$conv->other->name}}"}'
+                            data-conv_id = "{{$conv->id}}" 
+                            class="btn-open-chat" id="button-chat">
+                              Chat
+                            </a>
                             <!--button type="button" class="btn btn-default" id="button-chat">Chat</button-->   
                        </div>
                      </div>
-                       @endforeach
+                       @empty
+                        <div class="col-md-12">
+                         <h3 class="text-center">Nenhuma conversa</h3>
+                       </div>
+                       @endforelse
                         </div>
                        </div>
                  <!--fim do teste-->

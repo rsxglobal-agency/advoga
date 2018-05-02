@@ -48,14 +48,14 @@ class ChatController extends Controller
 
       $selectChat = $database->getReference('chat/messages/'.$usuariosChat['messages_key']);
       $Chat = $selectChat->getValue();
-      foreach ($Chat as $conversa) {
-        echo $conversa['text'];
-      }
-      die;
+      // foreach ($Chat as $conversa) {
+      //   echo $conversa['text'];
+      // }
+      // die;
     
       
       //return view("chat.index",['usuariosChat' => $usuariosChat]);
-      return view("chat.index",$usuariosChat);
+      return view("chat.index",$Chat);
     }
 
   
