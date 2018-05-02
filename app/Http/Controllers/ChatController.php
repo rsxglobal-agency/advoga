@@ -44,7 +44,7 @@ class ChatController extends Controller
 
             $selectUsuarios = $database->getReference('chat/users')
             // order the reference's children by the values in the field 'height'
-            ->orderByChild('height')
+            ->orderByKey()
             // returns all persons being exactly 1.98 (meters) tall
             ->getSnapshot();
 
