@@ -29,31 +29,32 @@ class ChatController extends Controller
     
     public function index()
     {
+      $user = Auth::user();
       
       $serviceAccount = ServiceAccount::fromJsonFile(__DIR__.'/../../../advogaapp-firebase.json');
 
-          $firebase = (new Factory)
-            ->withServiceAccount($serviceAccount)
-            // The following line is optional if the project id in your credentials file
-            // is identical to the subdomain of your Firebase project. If you need it,
-            // make sure to replace the URL with the URL of your project.
-            ->withDatabaseUri('https://advogaapp.firebaseio.com/')
-            ->create();
+      $firebase = (new Factory)
+      ->withServiceAccount($serviceAccount)
+      // The following line is optional if the project id in your credentials file
+      // is identical to the subdomain of your Firebase project. If you need it,
+      // make sure to replace the URL with the URL of your project.
+      ->withDatabaseUri('https://advogaapp.firebaseio.com/')
+      ->create();
 
-            $database = $firebase->getDatabase();
+      $database = $firebase->getDatabase();
 
-            $selectUsuarios = $database->getReference('chat/users/6669');
+      $selectUsuarios = $database->getReference('chat/users/'.$user->id));
 
-            $usuariosChat = $selectUsuarios->getValue();
-            print_r($usuariosChat);
-            die;
+      $usuariosChat = $selectUsuarios->getValue();
+      print_r($usuariosChat);
+      die;
 
       
       
     
       
       //return view("chat.index",['usuariosChat' => $usuariosChat]);
-            return view("chat.index",$usuariosChat);
+      return view("chat.index",$usuariosChat);
     }
 
   
