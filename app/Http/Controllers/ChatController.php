@@ -46,7 +46,7 @@ class ChatController extends Controller
             // order the reference's children by the values in the field 'height'
             ->orderByChild('height')
             // returns all persons being exactly 1.98 (meters) tall
-            ->getSnapshot()
+            ->getSnapshot();
 
             // $usuariosChat = $selectUsuarios->getValue();
             print_r($selectUsuarios);
