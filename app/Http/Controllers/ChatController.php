@@ -47,7 +47,7 @@ class ChatController extends Controller
 
       $usuariosChat = $selectUsuarios->getValue();
 
-      print_r($usuariosChat);
+      print_r($usuariosChat['messages_key']);
       die;
 
       
