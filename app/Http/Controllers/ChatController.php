@@ -43,7 +43,7 @@ class ChatController extends Controller
             $database = $firebase->getDatabase();
 
             $selectUsuarios = $database->getReference('chat/users')
-            ->orderByChild(6669)
+            ->orderByChild('6669')
             ->getSnapshot();
 
             $usuariosChat = $selectUsuarios->getValue();
