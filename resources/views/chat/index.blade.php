@@ -14,40 +14,17 @@
                  <!--teste-->
                  <div class="flex-content" id="flex-content">
                    <div class="chat-item" id="chat-item">              
-                     @forelse ($selectChat as $conv)
+                     @foreach ($test as $conv)
                      <div class="flex-item" id="flex-item">
                        <div class="circular--portrait" id="circular--portrait-chat"> 
-                          @if($conv->other->image!='')  
-                            <img alt="" src="{{URL::to('/uploads/avatars')}}/{{ $conv->other->image }}"  id="chat_user_image" height="150">
-                              @else 
-                              <img alt="" src="{{ URL::to('/img/avatar/default.jpg') }}"  id="chat_user_image" height="150" >
-                              @endif
                       
                        </div>                    
                        <div class="flex-textos" id="flex-textos">
-                          <p class="nome" id="nome">{{$conv->other->name}}</p>
-                          <p class="demanda" id="demanda">Demanda</p>
-                          @if($conv->demand!=null)                                                                                         
-                           <p class="demanda-nome" id="demanda-nome">{{$conv->demand->name}}</p>
-                          @elseif($conv->demand==null)
-                          <p class="demand-empty" id="demand-empty">Nenhuma demanda encontrada</p>
-                          @endif                         
-                          <a href="#" 
-                            data-page    = "chat-page" 
-                            data-demand  = '{"id":""}'
-                            data-to      = '{"id":"{{$conv->other->id}}","name":"{{$conv->other->name}}"}'
-                            data-conv_id = "{{$conv->id}}" 
-                            class="btn-open-chat" id="button-chat">
-                              Chat
-                            </a>
+                          <p class="nome" id="nome">{{$conv->text}}</p>
                             <!--button type="button" class="btn btn-default" id="button-chat">Chat</button-->   
                        </div>
                      </div>
-                       @empty
-                        <div class="col-md-12">
-                         <h3 class="text-center">Nenhuma conversa</h3>
-                       </div>
-                       @endforelse
+                       @foreach
                         </div>
                        </div>
                  <!--fim do teste-->
