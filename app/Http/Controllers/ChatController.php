@@ -30,7 +30,7 @@ class ChatController extends Controller
     public function index()
     {
       
-      $serviceAccount = ServiceAccount::fromJsonFile(__DIR__.'/../../../../advogaapp-firebase.json');
+      $serviceAccount = ServiceAccount::fromJsonFile(__DIR__.'/../../../advogaapp-firebase.json');
 
           $firebase = (new Factory)
             ->withServiceAccount($serviceAccount)
