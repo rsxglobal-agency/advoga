@@ -42,12 +42,10 @@ class ChatController extends Controller
 
             $database = $firebase->getDatabase();
 
-            $selectUsuarios = $database->getReference('chat/users')
-            ->orderByChild('6669')
-            ->getSnapshot();
+            $selectUsuarios = $database->getReference('chat/users/6669');
 
-            // $usuariosChat = $selectUsuarios->getValue();
-            print_r($selectUsuarios);
+            $usuariosChat = $selectUsuarios->getValue();
+            print_r($usuariosChat);
             die;
 
       
@@ -55,7 +53,7 @@ class ChatController extends Controller
     
       
       //return view("chat.index",['usuariosChat' => $usuariosChat]);
-            return view("chat.index",$selectUsuarios);
+            return view("chat.index",$usuariosChat);
     }
 
   
