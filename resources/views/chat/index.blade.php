@@ -14,13 +14,13 @@
                  <!--teste-->
                  <div class="flex-content" id="flex-content">
                    <div class="chat-item" id="chat-item">              
-                     @foreach ($test as $conv)
+                     @foreach ($usuariosChat as $chat)
                      <div class="flex-item" id="flex-item">
                        <div class="circular--portrait" id="circular--portrait-chat"> 
                       
                        </div>                    
                        <div class="flex-textos" id="flex-textos">
-                          <p class="nome" id="nome">{{$conv->text}}</p>
+                          <p class="nome" id="nome">{{$chat}}</p>
                             <!--button type="button" class="btn btn-default" id="button-chat">Chat</button-->   
                        </div>
                      </div>

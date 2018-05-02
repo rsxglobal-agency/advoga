@@ -46,16 +46,13 @@ class ChatController extends Controller
       $selectUsuarios = $database->getReference('chat/users/'.$user->id);
 
       $usuariosChat = $selectUsuarios->getValue();
-      foreach ($usuariosChat as $chat) {
-        echo $chat;
-      }
 
       
       
     
       
       //return view("chat.index",['usuariosChat' => $usuariosChat]);
-      return view("chat.index",$usuariosChat);
+      return view("chat.index",['usuariosChat' => $usuariosChat]);
     }
 
   
