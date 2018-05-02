@@ -17,8 +17,8 @@
                      @forelse ($Chat as $conv)
                      <div class="flex-item" id="flex-item">                  
                        <div class="flex-textos" id="flex-textos">
-                          <p class="nome" id="nome">{{$conv['user_id']}}</p>
-                          <p class="demanda" id="demanda">{{$conv['text']}}</p>                     
+                          <p class="nome" id="nome">{{$conv->user_id}}</p>
+                          <p class="demanda" id="demanda">{{$conv->text}}</p>                     
                           <a href="#" 
                             data-page    = "chat-page" 
                             data-demand  = '{"id":""}'
