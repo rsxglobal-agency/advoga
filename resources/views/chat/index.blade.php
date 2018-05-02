@@ -112,7 +112,7 @@
                  <!--teste-->
                  <div class="flex-content" id="flex-content">
                    <div class="chat-item" id="chat-item">              
-                     @forelse ($conversations as $conv)
+                     @forelse ($selectChat as $conv)
                      <div class="flex-item" id="flex-item">
                        <div class="circular--portrait" id="circular--portrait-chat"> 
                           @if($conv->other->image!='')  
@@ -143,7 +143,7 @@
                      </div>
                        @empty
                         <div class="col-md-12">
-                         <h3 class="text-center">Nenhuma conversa encontrada</h3>
+                         <h3 class="text-center">Nenhuma conversa</h3>
                        </div>
                        @endforelse
                         </div>
