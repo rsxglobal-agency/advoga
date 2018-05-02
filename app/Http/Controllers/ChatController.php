@@ -43,11 +43,11 @@ class ChatController extends Controller
 
       $database = $firebase->getDatabase();
 
-      $selectUsuarios = $database->getReference('chat/users/'.$user->id);
+      $selectUsuarios = $database->getReference('chat/users/'.$user->id.'/225');
 
       $usuariosChat = $selectUsuarios->getValue();
 
-      echo $usuariosChat[0];
+      print_r($usuariosChat);
       die;
 
       
