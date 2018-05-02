@@ -49,7 +49,7 @@ class ChatController extends Controller
       
     
       
-      return view("chat.index",$test);
+      return view("chat.index",['test' => $test]);
     }
 
   
