@@ -47,7 +47,7 @@ class ChatController extends Controller
 
       $usuariosChat = $selectUsuarios->getValue();
 
-      echo count($usuariosChat);
+      echo $usuariosChat[0];
       die;
 
       
