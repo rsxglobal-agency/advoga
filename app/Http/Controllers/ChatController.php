@@ -42,7 +42,7 @@ class ChatController extends Controller
 
             $database = $firebase->getDatabase();
 
-            $selectChat = $database->getReference('chat/messages');
+            $selectChat = $database->getReference('chat/messages/-LAJX_bcg0mLvQ2vtLBV/-LAJXaIFtr3PSZwq1Ip7');
             $test = $selectChat->getValue();
 
       
