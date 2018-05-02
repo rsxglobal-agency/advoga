@@ -20,7 +20,7 @@
                           <p class="nome" id="nome">{{$conv['user_id']}}</p>
                           <p class="demanda" id="demanda">{{$conv['text']}}</p>                     
 
-                            <!--button type="button" class="btn btn-default" id="button-chat">Chat</button-->   
+                            <button type="button" class="btn btn-default" id="button-chat">Chat</button> 
                        </div>
                      </div>
                        @empty
