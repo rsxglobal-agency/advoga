@@ -44,9 +44,6 @@ class ChatController extends Controller
 
             $selectChat = $database->getReference('chat/messages');
             $test = $selectChat->getValue();
-            echo "<pre>";
-            print_r($test);
-            die;
 
       
       

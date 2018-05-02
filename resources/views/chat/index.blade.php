@@ -24,7 +24,7 @@
                             <!--button type="button" class="btn btn-default" id="button-chat">Chat</button-->   
                        </div>
                      </div>
-                       @foreach
+                       @endforeach
                         </div>
                        </div>
                  <!--fim do teste-->
