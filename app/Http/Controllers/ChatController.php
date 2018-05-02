@@ -42,11 +42,10 @@ class ChatController extends Controller
 
             $database = $firebase->getDatabase();
 
-            $selectUsuarios = $database->getReference('chat/users');
+            $selectUsuarios = $database->getReference('chat/users')
             // order the reference's children by the values in the field 'height'
             ->orderByChild('height')
             // returns all persons being exactly 1.98 (meters) tall
-            ->equalTo(1.98)
             ->getSnapshot()
 
             // $usuariosChat = $selectUsuarios->getValue();
