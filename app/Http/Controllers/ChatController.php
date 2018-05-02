@@ -12,6 +12,11 @@ use Illuminate\Http\Request;
 use Response;
 use Illuminate\Support\Facades\DB;
 
+require __DIR__.'/../../../../vendor/autoload.php';
+
+use Kreait\Firebase\Factory;
+use Kreait\Firebase\ServiceAccount;
+
 class ChatController extends Controller
 {
 
