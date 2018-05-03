@@ -36,7 +36,7 @@
         <div style="display:table; margin-left: 724px; border-spacing: 18px; align-content: center; align-items: center">
           <div style="display: table-cell;"><a href="login" style="font-size: 18px;color:white;text-decoration:none">Entrar</a></div>
           <div style="display: table-cell;"><a href="cadastro" style="font-size: 18px;color:white;text-decoration:none">Cadastre-se</a></div>
-          <div style="display: table-cell;"><a href="www.advogaapp.com.br/blog" style="font-size: 18px;color:white;text-decoration:none">Blog</a></div>
+          <div style="display: table-cell;"><a href="https://www.advogaapp.com.br/blog" target="_blank" style="font-size: 18px;color:white;text-decoration:none">Blog</a></div>
         </div>
         
       </nav>
