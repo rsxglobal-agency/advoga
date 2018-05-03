@@ -49,7 +49,7 @@ class ChatController extends Controller
       $demand_names = [];
       
       foreach ($usuariosChat as $key => $value) {
-        $demand_names[] .= DB::select('SELECT name
+        $demand_names[$key] .= DB::select('SELECT name
                                        FROM demands 
                                        WHERE id=?', [$key]);
       }
