@@ -25,10 +25,7 @@
 )
                           <p class="demand-empty" id="demand-empty">Nenhuma demanda encontrada</p>
                           <a href="#" 
-                            data-page    = "chat-page" 
-                            data-demand  = '{"id":""}'
-                            data-to      = '{"id":"{{$conv->other->id}}","name":"{{$conv->other->name}}"}'
-                            data-conv_id = "{{$conv->id}}" 
+      
                             class="btn-open-chat" id="button-chat">
                               Chat
                             </a>
