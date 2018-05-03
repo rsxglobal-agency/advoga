@@ -17,15 +17,12 @@
                     @forelse ($Chat as $conv)
                      <div class="flex-item" id="flex-item">
                        <div class="circular--portrait" id="circular--portrait-chat"> 
-                              <img alt="" src="{{ URL::to('/img/avatar/default.jpg') }}"  id="chat_user_image" height="150" >
-                      
+                          <img alt="" src="{{ URL::to('/img/avatar/default.jpg') }}"  id="chat_user_image" height="150" >
                        </div>                    
                        <div class="flex-textos" id="flex-textos">
                           <p class="nome" id="nome">{{$conv['user_id']}}</p>                         
                           <a href="#" 
                             data-page    = "chat-page" 
-                            data-demand  = '{"id":""}'
-                            data-conv_id = "{{$conv['messages_key']}}" 
                             class="btn-open-chat" id="button-chat">
                               Chat
                             </a>
