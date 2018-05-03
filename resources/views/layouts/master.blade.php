@@ -10,13 +10,11 @@
 @include('includes.menu')
 
 
-<section id="main-content">
+<section class="col-sm-9">
 <section class="wrapper">
-<div class="container">
 
 @yield('content')
 
-</div>
 
 
 </section>

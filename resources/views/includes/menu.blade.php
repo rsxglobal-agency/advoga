@@ -1,7 +1,7 @@
 
 <!--SIDEBAR START-->
 
-<aside>
+<aside class="col-sm-3" style="padding: 0;">
   <div id="sidebar"  class="nav-collapse ">
 
 <!-- sidebar menu start-->
