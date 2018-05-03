@@ -20,7 +20,7 @@
                       
                        </div>                    
                        <div class="flex-textos" id="flex-textos">
-                          <p class="nome" id="nome">{{sadasdasd}}</p>
+                          <p class="nome" id="nome">sadasdasd</p>
                           <p class="demanda" id="demanda">Demanda</p>
 )
                           <p class="demand-empty" id="demand-empty">Nenhuma demanda encontrada</p>
