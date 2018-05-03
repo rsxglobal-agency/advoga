@@ -25,7 +25,6 @@
                           <a href="#" 
                             data-page    = "chat-page" 
                             data-demand  = '{"id":""}'
-                            data-to      = "{'id':'{{$conv['user_id']}}'}"
                             data-conv_id = "{{$conv['messages_key']}}" 
                             class="btn-open-chat" id="button-chat">
                               Chat
