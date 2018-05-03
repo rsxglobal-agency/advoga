@@ -13,21 +13,29 @@
 
                  <!--teste-->
                  <div class="flex-content" id="flex-content">
-                   <div class="chat-item" id="chat-item">              
-                     @forelse ($Chat as $conv)
-                     <div class="flex-item" id="flex-item">                  
+                   <div class="chat-item" id="chat-item">   
+                     <div class="flex-item" id="flex-item">
+                       <div class="circular--portrait" id="circular--portrait-chat"> 
+                              <img alt="" src="{{ URL::to('/img/avatar/default.jpg') }}"  id="chat_user_image" height="150" >
+                      
+                       </div>                    
                        <div class="flex-textos" id="flex-textos">
-                          <p class="nome" id="nome">{{$conv['user_id']}}</p>
-                          <p class="demanda" id="demanda">{{$conv['text']}}</p>                     
-
-                            <button type="button" class="btn btn-default" id="button-chat">Chat</button> 
+                          <p class="nome" id="nome">{{sadasdasd}}</p>
+                          <p class="demanda" id="demanda">Demanda</p>
+)
+                          <p class="demand-empty" id="demand-empty">Nenhuma demanda encontrada</p>
+                          <a href="#" 
+                            data-page    = "chat-page" 
+                            data-demand  = '{"id":""}'
+                            data-to      = '{"id":"{{$conv->other->id}}","name":"{{$conv->other->name}}"}'
+                            data-conv_id = "{{$conv->id}}" 
+                            class="btn-open-chat" id="button-chat">
+                              Chat
+                            </a>
+                            <!--button type="button" class="btn btn-default" id="button-chat">Chat</button-->   
                        </div>
                      </div>
-                       @empty
-                        <div class="col-md-12">
-                         <h3 class="text-center">Nenhuma conversa</h3>
-                       </div>
-                       @endforelse
+
                         </div>
                        </div>
                  <!--fim do teste-->
