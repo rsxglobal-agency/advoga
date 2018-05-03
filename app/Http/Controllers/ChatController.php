@@ -46,8 +46,10 @@ class ChatController extends Controller
       $selectUsuarios = $database->getReference('chat/users/'.$user->id);
       // $selectUsuarios = $database->getReference('chat/users/'.$user->id.'/225/-LAJX_b_hf3JOvjPmBll');
       $usuariosChat = $selectUsuarios->getValue();
-
-      print_r($usuariosChat);
+      foreach ($usuariosChat as $testeChat) {
+        echo $testeChat."<br>";
+      }
+      // print_r($usuariosChat);
       die;
 
       // $selectChat = $database->getReference('chat/messages/'.$usuariosChat['messages_key']);
