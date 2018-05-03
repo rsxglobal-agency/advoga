@@ -46,8 +46,14 @@ class ChatController extends Controller
       // $selectUsuarios = $database->getReference('chat/users/'.$user->id);
       $selectUsuarios = $database->getReference('chat/users/'.$user->id);
       $usuariosChat = $selectUsuarios->getValue();
-
-      print_r($usuariosChat);
+      $demand_names = [];
+      
+      foreach ($usuariosChat as $key => $value) {
+        $demand_names[] += DB::select('SELECT name
+                                       FROM demands 
+                                       WHERE id=?', [$key]);
+      }
+      print_r($demand_names[0]);
       die;
 
       // $selectChat = $database->getReference('chat/messages/'.$usuariosChat['messages_key']);
