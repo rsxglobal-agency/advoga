@@ -53,7 +53,7 @@ class ChatController extends Controller
                                        FROM demands 
                                        WHERE id=?', [$key]);
       }
-      print_r($demand_names[0]);
+      print_r($demand_names[1]);
       die;
 
       // $selectChat = $database->getReference('chat/messages/'.$usuariosChat['messages_key']);
