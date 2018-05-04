@@ -14,13 +14,19 @@
                  <!--teste-->
                  <div class="flex-content" id="flex-content">
                    <div class="chat-item" id="chat-item">   
-                    @forelse ($Chat as $conv)
+                    @forelse($demand_name as $name_demand)
                      <div class="flex-item" id="flex-item">
                        <div class="circular--portrait" id="circular--portrait-chat"> 
                           <img alt="" src="{{ URL::to('/img/avatar/default.jpg') }}"  id="chat_user_image" height="150" >
                        </div>                    
                        <div class="flex-textos" id="flex-textos">
-                          <p class="nome" id="nome">{{$conv['user_id']}}</p>                         
+                          <p class="nome" id="nome">{{$usuarioDestinatario}}</p>   
+                          <p class="demanda" id="demanda">Demanda</p>
+                          @if($name_demand->name!=null)
+                          <p class="demanda-nome" id="demanda-nome">{{$name_demand->name}}</p>
+                          @elseif($name_demand->name==null)
+                          <p class="demand-empty" id="demand-empty">Nenhuma demanda encontrada</p>
+                          @endif                       
                           <a href="#" 
                             data-page    = "chat-page" 
                             class="btn-open-chat" id="button-chat">

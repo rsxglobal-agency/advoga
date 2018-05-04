@@ -43,26 +43,29 @@ class ChatController extends Controller
 
       $database = $firebase->getDatabase();
 
-      // $selectUsuarios = $database->getReference('chat/users/'.$user->id);
       $selectUsuarios = $database->getReference('chat/users/'.$user->id);
       $usuariosChat = $selectUsuarios->getValue();
-      $demand_names = [];
-      
+
+      $demand_ids = [];
       foreach ($usuariosChat as $key => $value) {
-        $demand_names[] = DB::select('SELECT name
-                                       FROM demands 
-                                       WHERE id=?', [$key]);
+        $demand_ids[] = $key.',';
+
+        //pegando usuario que vai a msg
+        foreach ($value as $key2 => $value2) {
+          $idusuarioDestinatario = $value2['user_to'];
+          $selectUsuariosDest = $database->getReference('users/'.$idusuarioDestinatario.'/dados');
+          $usuariosChatDest = $selectUsuariosDest->getValue();
+
+          $usuarioDestinatario = $usuariosChatDest['nome'];
+        }
       }
-      print_r($demand_names);
-      die;
-
-      // $selectChat = $database->getReference('chat/messages/'.$usuariosChat['messages_key']);
-      // $Chat = $selectChat->getValue();
-
-    
       
-      //return view("chat.index",['usuariosChat' => $usuariosChat]);
-      return view("chat.index",['Chat' => $Chat]);
+      
+      $idAssunto = substr($demand_ids[0],0,-1);
+
+      $demand_name = DB::select('SELECT name FROM demands WHERE id IN(?)', [$idAssunto]);
+
+      return view("chat.index",['demand_name' => $demand_name, 'usuarioDestinatario' => $usuarioDestinatario]);
     }
 
   
