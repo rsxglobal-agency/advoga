@@ -106,6 +106,7 @@ class DemandaController extends Controller
 			$dados['data']				= date("d/m/Y H:i", strtotime($value->data));
 			$dados['atuacao']			= Utils::getDemand($value->demand_id);
 			$dados['serv_prestado']		= Utils::getService($value->demand_id);
+			$dados['number_of_candidates'] = count(Utils::getCandidates($value->demand_id));
 
 			$array[] = $dados;
 		}
