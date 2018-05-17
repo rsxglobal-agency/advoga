@@ -282,6 +282,7 @@ class DemandaController extends Controller
 		    $demand->atuations_ids = $atuations_ids;
 
 		    $demand->candidatos =  Utils::getCandidates($demand->id);
+		    $demand->number_of_candidates = count(Utils::getCandidates($demand->id));
 
 		    $data[]  = $demand;
 		}

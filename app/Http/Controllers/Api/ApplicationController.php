@@ -62,6 +62,7 @@ class ApplicationController extends Controller
 		    $atuations = Demand::find($demand->demanda_id)->atuations()->orderBy('name')->pluck('name')->toArray();
 		    $atuations = implode(", ", $atuations);
 		    $dados['atuations'] = $atuations;
+		    $dados['number_of_candidates'] = count(Utils::getCandidates($demand->demanda_id));
 		  	$array[] = $dados;
 		} 
     	return json_encode($array);
