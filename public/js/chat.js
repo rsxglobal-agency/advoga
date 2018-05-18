@@ -1,3 +1,5 @@
+
+ 
  $(document).ready(function($){
     
     $.ajaxSetup({
@@ -52,6 +54,17 @@
         .modal('show');
     });
     
+    var config = {
+        apiKey: "AIzaSyDp1p3KRxC_B6SBo6u4K-JLoWYuExn8fE8",
+        authDomain: "advogaapp.firebaseapp.com",
+        databaseURL: "https://advogaapp.firebaseio.com",
+        projectId: "advogaapp",
+        storageBucket: "advogaapp.appspot.com",
+        messagingSenderId: "373074552675"
+    }
+    firebase.initializeApp(config);
+
+    const FdataBase = firebase.database();
     //----------------------------- Chat  --------------------------------------//
     var CHAT_RUN = false;
     var CHAT_setInterval;
@@ -86,27 +99,34 @@
       
       //------- Verifica quais serão os atributos para o inicio da conversa ---//
       if (PAGE=='candidaturas'){
-           CONV_ST.demand_id = DEMAND.id;//DEMAND.id;
-           CONV_ST.from_user = USER.id;
-           CONV_ST.to_user   = DEMAND.user_id;
+           CONV_ST.conversation_id = JSON.parse(DEMAND.id);//DEMAND.id;
+           CONV_ST.from_user = JSON.parse(USER.id);
+           CONV_ST.to_user   = JSON.parse(DEMAND.user_id);
       }
       
       if(PAGE=='candidatos'){
-           CONV_ST.demand_id = DEMAND.id;//DEMAND.id;
-           CONV_ST.from_user = USER.id;
+           CONV_ST.conversation_id = JSON.parse(DEMAND.id);//DEMAND.id;
+           CONV_ST.from_user = JSON.parse(USER.id);
            CONV_ST.to_user   = TO_USER.id;
       }
       
      if(PAGE=='demandas-exe'){
-           CONV_ST.demand_id = DEMAND.id;
-           CONV_ST.from_user = USER.id;
+           CONV_ST.conversation_id = JSON.parse(DEMAND.id);
+           CONV_ST.from_user = JSON.parse(USER.id);
+           console.log(CONV_ST.from_user);
+           console.log(CONV_ST.conversation_id);
            CONV_ST.to_user   = TO_USER.id;
+           console.log(CONV_ST.to_user);
       }
       
      if(PAGE=='diligencias-exe'){
-           CONV_ST.demand_id = DEMAND.id;
-           CONV_ST.from_user = USER.id;
-           CONV_ST.to_user   = DEMAND.user_id;
+        CONV_ST.conversation_id = JSON.parse(DEMAND.id);
+        
+        console.log(CONV_ST.conversation_id);
+        CONV_ST.from_user = JSON.parse(USER.id);
+        console.log(CONV_ST.from_user);
+        CONV_ST.to_user   = TO_USER.id;
+        console.log(CONV_ST.to_user);
       }
       
       
@@ -119,9 +139,9 @@
       
       if(PAGE=='chat-page'){
            CONV_ST.demand_id = '';
-           CONV_ST.from_user = USER.id;
-           CONV_ST.to_user   = TO_USER.id;
-           CONV_ST.conversation_id = $element.data('conv_id');
+           CONV_ST.from_user = JSON.parse(USER.id);
+           CONV_ST.to_user   = JSON.parse(TO_USER.id);
+           CONV_ST.conversation_id = DEMAND;
            CONV_ST.page = 'chat';
       }
       
@@ -131,21 +151,19 @@
       
       
       //------- busca conversa / caso não exista será criada -----------------//
-      function getConversation(callback){
+      function getConversation(callback){        
+        FdataBase.ref('chat/users/'+CONV_ST.from_user+"/"+CONV_ST.conversation_id)
+        .on('value',res => {
+            console.log(CONV_ST.conversation_id)
+            let key = Object.keys(res.val());
+            let msgKey = res.val()[key[0]].messages_key;
 
-                $.ajax({
-                    url  : post_conv,
-                    data : CONV_ST,
-                    type : 'POST',
-                    dataType:'json'
-                 }).done(function(resp){
-                    if (resp.success==true){
-                          callback(resp.data);
-                    }else{
-                      alert('Erro ao iniciar conversa.');  
-                    }
-                 });
-        
+            FdataBase.ref("chat/messages/"+msgKey)
+            .on('value',resp => {
+                let msgArr = Object.values(resp.val());
+                callback(msgArr)
+            }) 
+        })
       }
       
       //Após recuperar dados da conversa
@@ -153,7 +171,7 @@
         
          CONV_DATA = data;
          
-         //Funçõe específicas para chat na demanda
+         //Funções específicas para chat na demanda
          if(CONV_DATA.demand_id!=null){
              fnAutor();
              fnDemanda();
@@ -169,15 +187,15 @@
         //----------------- funcções específicas do autor da demanda -------------//
         function fnAutor(){
         
-        //Se o usuário é autor da demanda e se ademanda ainda não tem um executor
-        if((DEMAND.user_id==USER.id) && (DEMAND.executor_id=="")){
+            //Se o usuário é autor da demanda e se ademanda ainda não tem um executor
+            if((DEMAND.user_id==USER.id) && (DEMAND.executor_id=="")){
             $btnContratar.css('display','inline-block');
-        }
+            }
         
-        //Se o usuário é autor da demanda e se ademanda já tem um executor
-        if((DEMAND.user_id==USER.id) && (DEMAND.executor_id!="")){
-            $btnCancelar.css('display','inline-block');
-        }
+            //Se o usuário é autor da demanda e se ademanda já tem um executor
+            if((DEMAND.user_id==USER.id) && (DEMAND.executor_id!="")){
+                $btnCancelar.css('display','inline-block');
+            }
         
         }
         
@@ -197,26 +215,18 @@
         
                //---------------- send message ----------------//
                function sendMessageAjax(text){
-               
-                    $.ajax({
-                            url: post_url,
-                            data : {  
-                                    conversation_id: CONV_DATA.id,
-                                    text    : text,
-                                    user_id : USER.id,
-                                    special : 0
-                            },
-                            type:'POST',
-                            dataType:'json',
-                            cache: false
-                         }).done(function(resp){
-                            if (resp.success==true){
-                                  appendMessage(resp.data);
-                            }else{
-                              alert('Erro ao enviar mensagem');  
-                            }
-                         });
-        
+                FdataBase.ref('chat/users/'+CONV_ST.from_user+"/"+CONV_ST.conversation_id)
+                .on('value',res => {
+                    let key = Object.keys(res.val());
+                    let msgKey = res.val()[key[0]].messages_key;
+                    let msgs = {
+                        text: text,
+                        timestamp: (new Date()).getTime(),
+                        user_id: USER.id
+                    }
+
+                    FdataBase.ref('chat/messages/').child(msgKey).push(msgs);
+                })
                }
                
                //---------------- verifica se a mensagem já existe ------//
@@ -265,78 +275,68 @@
                        '</div>'+
                      '</li>';
                   
-                   $listMessages.append(html);
+                   $listMessages.html(html);
                    scrollMessagesToBottom();
         
                }
                
                //---------------- append message ------------------------//
-               function appendMessage(data){
-                   
-                  if(checExistsMessage(data.id)){
-                      return true;
-                  }
-                  
-                  if(data.special > 0){
-                     appendMessageSpecial(data);
-                    return true;
-                  }
-                  
-                  var _class_position = 'right';
-                  if (USER.id==data.user_id){
-                      _class_position = 'left';
-                  }
-                    
-                  var html = '<li class="'+_class_position+'" data-id="'+data.id+'">'+
-                                  '<div class="msinfo">'+
-                                      '<p>'+data.user.name+' | <small>'+data.created_at+'</small></p>'+
-                                   '</div>'+
-                                   '<div class="avatar" style="background-image: url(\''+base_url+'/uploads/avatars/'+data.user.image+'\');">'+
-                                      //'<img src="'+base_url+'/uploads/avatars/'+data.user.image+'"/>'+
-                                   '</div>'+
-                                  '<div class="mscontent">'+
-                                      '<p>'+data.text+'</p>'+
-                                   '</div>'+
-                               '</li>';
-                  
-                   $listMessages.append(html);
-                   scrollMessagesToBottom();
-                           
+               function appendMessage(dataT){
+                    $listMessages.empty();
+                    dataT.map((data,id)=>{
+                        const dateMin = new Date(data.timestamp).getMinutes();
+                        const dateHour = new Date(data.timestamp).getHours();
+                        if(checExistsMessage(data.id)){
+                            return true;
+                        }
+                        
+                        if(data.special > 0){
+                           appendMessageSpecial(data);
+                          return true;
+                        }
+                        
+                        var _class_position = 'right';
+                        FdataBase.ref('users/'+data.user_id+"/dados").on('value',res => {
+                            data.name = res.val().nome;
+                            if (USER.id==data.user_id){
+                            _class_position = 'left';
+                        }
+                          
+                        var html = '<li class="'+_class_position+'" data-id="'+data.id+'">'+
+                                        '<div class="msinfo">'+
+                                            '<p>'+data.name+' | <small>'+dateHour+":"+dateMin+" "+new Date(data.timestamp).toLocaleDateString()+'</small></p>'+
+                                         '</div>'+
+                                         '<div class="avatar" style="background-image: url(\''+res.val().img+'\');">'+
+                                            //'<img src="'+base_url+'/uploads/avatars/'+data.user.image+'"/>'+
+                                         '</div>'+
+                                        '<div class="mscontent">'+
+                                            '<p>'+data.text+'</p>'+
+                                         '</div>'+
+                                     '</li>';
+                        
+                         $listMessages.append(html);
+                         scrollMessagesToBottom();
+                        })
+                        
+                    })
                    return true;
-               }
-               
-               //---------------- append messages ----------------//
-               function appendMessages(data){
-                    $.each(data,function(i,val){
-                       appendMessage(val);
-                    });
                }
         
                //---------------- load messages ----------------//
                function loadMessages(){
-                   
-                   $.ajax({
-                            url : get_url,
-                            data: { 
-                                   conversation_id: CONV_DATA.id,
-                                   last_loaded_id : last_loaded_id   
-                            },
-                            type:'GET',
-                            cache:false,
-                            dataType:'json'
-                         }).done(function(resp){
-                            if (resp.data.length>0){  
-                                appendMessages(resp.data);
-                            }
-                        });
-        
+                    FdataBase.ref('chat/users/'+CONV_ST.from_user+"/"+CONV_ST.conversation_id)
+                    .on('value',res => {
+                        let key = Object.keys(res.val());
+                        let msgKey = res.val()[key[0]].messages_key;
+                        
+                        FdataBase.ref("chat/messages/"+msgKey)
+                        .on('value',resp => {
+                            let msgArr = Object.values(resp.val());
+                            
+                            appendMessage(msgArr)
+                        }) 
+                    })
                 }
-               
-                CHAT_setInterval = setInterval(function(){
-                   if(CHAT_RUN){
-                      loadMessages();
-                   }
-                },10000);
         
                //---------------- check text ------------------//
                function checkText(text){

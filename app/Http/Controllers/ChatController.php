@@ -35,37 +35,37 @@ class ChatController extends Controller
 
       $firebase = (new Factory)
       ->withServiceAccount($serviceAccount)
-      // The following line is optional if the project id in your credentials file
-      // is identical to the subdomain of your Firebase project. If you need it,
-      // make sure to replace the URL with the URL of your project.
       ->withDatabaseUri('https://advogaapp.firebaseio.com/')
       ->create();
 
       $database = $firebase->getDatabase();
 
-      $selectUsuarios = $database->getReference('chat/users/'.$user->id);
-      $usuariosChat = $selectUsuarios->getValue();
-
-      $demand_ids = [];
-      foreach ($usuariosChat as $key => $value) {
-        $demand_ids[] = $key.',';
-
-        //pegando usuario que vai a msg
-        foreach ($value as $key2 => $value2) {
-          $idusuarioDestinatario = $value2['user_to'];
-          $selectUsuariosDest = $database->getReference('users/'.$idusuarioDestinatario.'/dados');
-          $usuariosChatDest = $selectUsuariosDest->getValue();
-
-          $usuarioDestinatario = $usuariosChatDest['nome'];
+      $selectUsuarios   =   $database ->        getReference('chat/users/'.$user->id);
+      $usuariosChat     =   $selectUsuarios ->  getValue();
+      if($usuariosChat != null)
+      {
+        $keys           =   array_keys($usuariosChat);
+        foreach($keys as $key)
+        {
+          $valueA   =   array_keys($usuariosChat[$key]);
+          foreach($valueA as $contA)
+          {
+            $msg_id = $usuariosChat[$key][$contA]["messages_key"];
+            $msg_to = $usuariosChat[$key][$contA]["user_to"];
+            $selectUsrTo =$database->getReference("users/".$msg_to."/dados")->getValue();
+            $usuarioDestinatario = $selectUsrTo;
+            
+            $var[] = DB::select('SELECT name FROM demands WHERE id IN(?)', [$key]);
+          }
+         
         }
+        $demand_name = $var;
+
+        return view("chat.index",['demand_name' => $demand_name, 'usuarioDestinatario' => $usuarioDestinatario, 'id' => $keys]);
       }
-      
-      
-      $idAssunto = substr($demand_ids[0],0,-1);
-
-      $demand_name = DB::select('SELECT name FROM demands WHERE id IN(?)', [$idAssunto]);
-
-      return view("chat.index",['demand_name' => $demand_name, 'usuarioDestinatario' => $usuarioDestinatario]);
+      else{
+        return view("chat.index",['demand_name' => [], 'usuarioDestinatario' => '']);
+      }
     }
 
   
